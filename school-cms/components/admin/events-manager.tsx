@@ -51,6 +51,7 @@ function EventDialog({
   onOpenChange: (open: boolean) => void;
 }) {
   const [slugTouched, setSlugTouched] = useState(Boolean(event));
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const {
     register,
@@ -72,7 +73,7 @@ function EventDialog({
           endDate: event.endDate?.slice(0, 10) || "",
           published: event.published,
         }
-      : { published: false },
+      : { published: true },
   });
 
   async function onSubmit(values: EventInput) {
@@ -80,6 +81,7 @@ function EventDialog({
     Object.entries(values).forEach(([key, value]) =>
       formData.set(key, value === undefined || value === null ? "" : String(value))
     );
+    if (imageFile) formData.set("image", imageFile);
     const result = event
       ? await updateEventAction(event._id, {}, formData)
       : await createEventAction({}, formData);
@@ -139,8 +141,9 @@ function EventDialog({
             <Input id="location" {...register("location")} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="image">Image URL</Label>
-            <Input id="image" placeholder="https://..." {...register("image")} />
+            <Label htmlFor="image">Image</Label>
+            <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current image." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

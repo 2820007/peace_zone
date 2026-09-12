@@ -38,6 +38,7 @@ interface GalleryItemRow {
 export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
   const [open, setOpen] = useState(false);
   const [localItems, setLocalItems] = useState(items);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => setLocalItems(items), [items]);
 
@@ -48,7 +49,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
     formState: { errors, isSubmitting },
   } = useForm<GalleryItemInput>({
     resolver: zodResolver(galleryItemSchema),
-    defaultValues: { published: false, displayOrder: 0 },
+    defaultValues: { published: true, displayOrder: 0 },
   });
 
   async function onSubmit(values: GalleryItemInput) {
@@ -56,6 +57,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
     Object.entries(values).forEach(([key, value]) =>
       formData.set(key, value === undefined || value === null ? "" : String(value))
     );
+    if (imageFile) formData.set("image", imageFile);
     const result = await createGalleryItemAction({}, formData);
     if (result.error) {
       toast.error(result.error);
@@ -67,6 +69,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
     }
     toast.success("Photo added.");
     reset();
+    setImageFile(null);
     setOpen(false);
   }
 
@@ -94,8 +97,9 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
                 {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="image">Image URL</Label>
-                <Input id="image" placeholder="https://..." {...register("image")} />
+                <Label htmlFor="image">Image</Label>
+                <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+                <p className="text-xs text-muted-foreground">PNG, JPEG, WebP, or GIF; maximum 5 MB.</p>
                 {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
               </div>
               <div className="space-y-2">

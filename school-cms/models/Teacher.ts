@@ -47,7 +47,7 @@ const TeacherSchema = new Schema<ITeacher>(
       website: { type: String },
     },
     displayOrder: { type: Number, default: 0, index: true },
-    published: { type: Boolean, default: false, index: true },
+    published: { type: Boolean, default: true, index: true },
   },
   { timestamps: true }
 );

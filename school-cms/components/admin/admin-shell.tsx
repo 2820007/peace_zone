@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SidebarNav } from "@/components/admin/sidebar-nav";
 import { cn } from "@/lib/utils";
-import { logoutAction } from "@/actions/auth";
 import { SITE_CONFIG } from "@/config/site";
 
 function useBreadcrumb() {
@@ -39,7 +38,7 @@ export function AdminShell({
   const breadcrumb = useBreadcrumb();
 
   return (
-    <div className="flex min-h-screen bg-secondary/20">
+    <div className="admin-theme flex min-h-screen bg-secondary/40">
       {/* Desktop sidebar */}
       <aside
         className={cn(
@@ -112,18 +111,11 @@ export function AdminShell({
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href="/" target="_blank">
-                  View public site
-                </Link>
+                <Link href="/" target="_blank">View public site</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onSelect={() => {
-                  logoutAction();
-                }}
-                className="text-destructive focus:text-destructive"
-              >
-                <LogOut className="h-4 w-4" /> Log out
+              <DropdownMenuItem asChild className="text-destructive focus:text-destructive">
+                <Link href="/admin/logout"><LogOut className="h-4 w-4" /> Log out</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

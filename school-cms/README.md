@@ -11,9 +11,7 @@ JWT sessions (jose) + bcrypt.
 
 ## Getting started
 
-This project was written entirely by hand in an environment without network
-access, so dependencies have **not** been installed and the app has **not**
-been run or type-checked yet. Do the following on your own machine:
+Do the following on your own machine:
 
 ```bash
 # 1. Install dependencies
@@ -26,6 +24,10 @@ cp .env.example .env.local
 #   SEED_ADMIN_PASSWORD=adminpassword
 # Change SESSION_SECRET to a long random string before deploying anywhere real:
 #   openssl rand -base64 48
+# Set these from your Cloudinary dashboard to enable admin image uploads:
+#   CLOUDINARY_CLOUD_NAME
+#   CLOUDINARY_API_KEY
+#   CLOUDINARY_API_SECRET
 
 # 3. Make sure MongoDB is running locally (or point MONGODB_URI at Atlas)
 #    e.g. via Docker:
@@ -41,6 +43,13 @@ npm run dev
 Visit http://localhost:3000 for the public site and
 http://localhost:3000/admin/login to sign in to the CMS with the seeded
 credentials.
+
+## Image uploads
+
+Admin image fields accept local image files instead of URLs. Files up to 5 MB
+are uploaded server-side to Cloudinary and the returned secure URL is saved in
+MongoDB. Existing images remain unchanged when editing unless a replacement
+file is selected.
 
 ## Project structure
 

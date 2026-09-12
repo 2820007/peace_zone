@@ -30,6 +30,7 @@ interface TestimonialFormProps {
 export function TestimonialForm({ defaultValues, action, submitLabel }: TestimonialFormProps) {
   const router = useRouter();
   const [serverError, setServerError] = useState<string | undefined>();
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const {
     register,
@@ -41,7 +42,7 @@ export function TestimonialForm({ defaultValues, action, submitLabel }: Testimon
   } = useForm<TestimonialInput>({
     resolver: zodResolver(testimonialSchema),
     defaultValues: {
-      published: false,
+      published: true,
       displayOrder: 0,
       rating: 5,
       ...defaultValues,
@@ -57,6 +58,7 @@ export function TestimonialForm({ defaultValues, action, submitLabel }: Testimon
     Object.entries(values).forEach(([key, value]) => {
       formData.set(key, value === undefined || value === null ? "" : String(value));
     });
+    if (imageFile) formData.set("image", imageFile);
 
     const result = await action({}, formData);
 
@@ -93,8 +95,9 @@ export function TestimonialForm({ defaultValues, action, submitLabel }: Testimon
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="image">Photo URL</Label>
-            <Input id="image" placeholder="https://..." {...register("image")} />
+            <Label htmlFor="image">Photo</Label>
+            <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+            <p className="text-xs text-muted-foreground">{defaultValues?.image ? "Leave blank to keep the current photo." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
             {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
           </div>
 

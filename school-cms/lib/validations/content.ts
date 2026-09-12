@@ -29,7 +29,7 @@ export type NoticeInput = z.infer<typeof noticeSchema>;
 
 export const galleryItemSchema = z.object({
   title: z.string().min(2, "Title is required"),
-  image: z.string().url("Enter a valid image URL"),
+  image: z.string().url("Enter a valid image URL").optional().or(z.literal("")),
   category: z.string().optional().or(z.literal("")),
   displayOrder: z.coerce.number().int().default(0),
   published: z.boolean().default(false),

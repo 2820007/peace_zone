@@ -5,6 +5,7 @@ import { connectToDatabase } from "@/lib/db/connect";
 import Event from "@/models/Event";
 import { eventSchema } from "@/lib/validations/content";
 import { getSession } from "@/lib/auth/session";
+import { imageValueFromForm } from "@/lib/cloudinary";
 import type { FormActionState } from "@/actions/teachers";
 
 async function requireAdmin() {
@@ -13,13 +14,13 @@ async function requireAdmin() {
   return session;
 }
 
-function parseForm(formData: FormData) {
+async function parseForm(formData: FormData) {
   return eventSchema.safeParse({
     title: String(formData.get("title") || ""),
     slug: String(formData.get("slug") || ""),
     description: String(formData.get("description") || ""),
     location: String(formData.get("location") || ""),
-    image: String(formData.get("image") || ""),
+    image: await imageValueFromForm(formData),
     startDate: String(formData.get("startDate") || ""),
     endDate: String(formData.get("endDate") || ""),
     published: formData.get("published") === "on" || formData.get("published") === "true",
@@ -31,7 +32,12 @@ export async function createEventAction(
   formData: FormData
 ): Promise<FormActionState> {
   await requireAdmin();
-  const parsed = parseForm(formData);
+  let parsed;
+  try {
+    parsed = await parseForm(formData);
+  } catch (error) {
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+  }
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
     for (const issue of parsed.error.issues) fieldErrors[issue.path[0] as string] = issue.message;
@@ -62,7 +68,12 @@ export async function updateEventAction(
   formData: FormData
 ): Promise<FormActionState> {
   await requireAdmin();
-  const parsed = parseForm(formData);
+  let parsed;
+  try {
+    parsed = await parseForm(formData);
+  } catch (error) {
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+  }
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
     for (const issue of parsed.error.issues) fieldErrors[issue.path[0] as string] = issue.message;

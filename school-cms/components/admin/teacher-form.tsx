@@ -25,6 +25,7 @@ export function TeacherForm({ defaultValues, action, submitLabel }: TeacherFormP
   const router = useRouter();
   const [serverError, setServerError] = useState<string | undefined>();
   const [slugTouched, setSlugTouched] = useState(Boolean(defaultValues?.slug));
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const {
     register,
@@ -36,7 +37,7 @@ export function TeacherForm({ defaultValues, action, submitLabel }: TeacherFormP
   } = useForm<TeacherInput>({
     resolver: zodResolver(teacherSchema),
     defaultValues: {
-      published: false,
+      published: true,
       displayOrder: 0,
       ...defaultValues,
     },
@@ -50,6 +51,7 @@ export function TeacherForm({ defaultValues, action, submitLabel }: TeacherFormP
     Object.entries(values).forEach(([key, value]) => {
       formData.set(key, value === undefined || value === null ? "" : String(value));
     });
+    if (imageFile) formData.set("image", imageFile);
 
     const result = await action({}, formData);
 
@@ -118,8 +120,9 @@ export function TeacherForm({ defaultValues, action, submitLabel }: TeacherFormP
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="image">Photo URL</Label>
-            <Input id="image" placeholder="https://..." {...register("image")} />
+            <Label htmlFor="image">Photo</Label>
+            <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+            <p className="text-xs text-muted-foreground">{defaultValues?.image ? "Leave blank to keep the current photo." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
             {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
           </div>
 

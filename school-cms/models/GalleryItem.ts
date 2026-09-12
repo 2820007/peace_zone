@@ -16,7 +16,7 @@ const GalleryItemSchema = new Schema<IGalleryItem>(
     image: { type: String, required: true },
     category: { type: String, trim: true, index: true },
     displayOrder: { type: Number, default: 0, index: true },
-    published: { type: Boolean, default: false, index: true },
+    published: { type: Boolean, default: true, index: true },
   },
   { timestamps: true }
 );

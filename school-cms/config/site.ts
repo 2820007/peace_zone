@@ -23,7 +23,7 @@ export const SITE_CONFIG = {
 };
 
 export const SCHOOL_IMAGES = {
-  hero: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80",
+  hero: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=80",
   campus: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=1200&q=80",
   classroom: "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1200&q=80",
   library: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&q=80",
@@ -46,6 +46,7 @@ export const SCHOOL_IMAGES = {
     "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80",
   ],
 };
+
 
 export const NAV_LINKS = [
   { href: "/", label: "Home" },

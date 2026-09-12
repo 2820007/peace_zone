@@ -5,6 +5,7 @@ import { connectToDatabase } from "@/lib/db/connect";
 import Teacher from "@/models/Teacher";
 import { teacherSchema } from "@/lib/validations/teacher";
 import { getSession } from "@/lib/auth/session";
+import { imageValueFromForm } from "@/lib/cloudinary";
 
 export interface FormActionState {
   success?: boolean;
@@ -20,7 +21,7 @@ async function requireAdmin() {
   return session;
 }
 
-function parseTeacherForm(formData: FormData) {
+async function parseTeacherForm(formData: FormData) {
   return teacherSchema.safeParse({
     name: String(formData.get("name") || ""),
     slug: String(formData.get("slug") || ""),
@@ -28,7 +29,7 @@ function parseTeacherForm(formData: FormData) {
     qualification: String(formData.get("qualification") || ""),
     department: String(formData.get("department") || ""),
     bio: String(formData.get("bio") || ""),
-    image: String(formData.get("image") || ""),
+    image: await imageValueFromForm(formData),
     email: String(formData.get("email") || ""),
     phone: String(formData.get("phone") || ""),
     linkedin: String(formData.get("linkedin") || ""),
@@ -44,7 +45,12 @@ export async function createTeacherAction(
   formData: FormData
 ): Promise<FormActionState> {
   await requireAdmin();
-  const parsed = parseTeacherForm(formData);
+  let parsed;
+  try {
+    parsed = await parseTeacherForm(formData);
+  } catch (error) {
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+  }
 
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
@@ -82,7 +88,12 @@ export async function updateTeacherAction(
   formData: FormData
 ): Promise<FormActionState> {
   await requireAdmin();
-  const parsed = parseTeacherForm(formData);
+  let parsed;
+  try {
+    parsed = await parseTeacherForm(formData);
+  } catch (error) {
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+  }
 
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};

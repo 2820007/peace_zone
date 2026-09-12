@@ -22,7 +22,7 @@ const EventSchema = new Schema<IEvent>(
     image: { type: String },
     startDate: { type: Date, required: true, index: true },
     endDate: { type: Date },
-    published: { type: Boolean, default: false, index: true },
+    published: { type: Boolean, default: true, index: true },
   },
   { timestamps: true }
 );
