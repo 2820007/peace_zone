@@ -1,258 +1,40 @@
-import Image from "next/image";
-import Link from "next/link";
-import {
-  BookOpen,
-  Users,
-  Trophy,
-  HeartHandshake,
-  ArrowRight,
-  CalendarDays,
-  MapPin,
-} from "lucide-react";
+import { SectionHeading, TeacherCard, TestimonialCard } from "@/components/public/shared";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import {
-  SectionHeading,
-  TeacherCard,
-  TestimonialCard,
-} from "@/components/public/shared";
 import { SCHOOL_IMAGES, SITE_CONFIG } from "@/config/site";
+import { getFeaturedTeachers, getFeaturedTestimonials, getPublishedGalleryItems, getUpcomingEvents } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
-import {
-  getFeaturedTeachers,
-  getFeaturedTestimonials,
-  getUpcomingEvents,
-  getPublishedGalleryItems,
-} from "@/lib/queries";
+import { ArrowRight, BookOpen, CalendarDays, CheckCircle2, Dumbbell, MapPin, Microscope, Music2, Palette, Rocket, Sparkles, Trophy, Users } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+
+const programs = [
+  { title: "Early Years", detail: "A joyful start built on play, discovery, and belonging.", icon: Sparkles },
+  { title: "Primary School", detail: "Strong foundations that turn curiosity into confident learning.", icon: BookOpen },
+  { title: "Middle School", detail: "Engaging learning experiences that grow independence and purpose.", icon: Microscope },
+  { title: "Senior School", detail: "Future-ready pathways for academic success and personal growth.", icon: Rocket },
+];
+const activities = [{ title: "Creative arts", icon: Palette }, { title: "Sports & wellbeing", icon: Dumbbell }, { title: "Music & performance", icon: Music2 }, { title: "Leadership & clubs", icon: Users }];
+const journey = [["A warm beginning", "Every learner is welcomed into a community where they feel known, safe, and ready to belong."], ["Learn and explore", "Active classrooms help students ask questions, build skills, and make meaningful connections."], ["Discover potential", "Guidance, feedback, and opportunity help every child uncover their strengths and interests."], ["Lead and achieve", "Students grow into capable, compassionate young people ready to shape their next chapter."]];
 
 export default async function HomePage() {
-  const [teachers, testimonials, events, galleryItems] = await Promise.all([
-    getFeaturedTeachers(4),
-    getFeaturedTestimonials(3),
-    getUpcomingEvents(3),
-    getPublishedGalleryItems(),
-  ]);
-
+  const [teachers, testimonials, events, galleryItems] = await Promise.all([getFeaturedTeachers(4), getFeaturedTestimonials(3), getUpcomingEvents(3), getPublishedGalleryItems(6)]);
   const gallery = galleryItems.slice(0, 6);
+  return <>
+    <section className="relative isolate overflow-hidden bg-primary"><Image src={SCHOOL_IMAGES.hero} alt="Students learning together" fill priority className="-z-20 object-cover" /><div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary via-primary/85 to-primary/35" /><div className="container py-24 sm:py-32 lg:py-40"><Badge className="border-0 bg-accent text-accent-foreground hover:bg-accent">Admissions open</Badge><h1 className="mt-5 max-w-3xl font-serif text-4xl font-semibold leading-[1.05] text-white sm:text-5xl lg:text-6xl">Education that inspires. <span className="text-accent">Learning that lasts.</span></h1><p className="mt-6 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">At {SITE_CONFIG.name}, each child is encouraged to think boldly, grow confidently, and discover a future full of possibility.</p><div className="mt-8 flex flex-wrap gap-3"><Button asChild size="lg"><Link href="/contact">Apply for admission <ArrowRight /></Link></Button><Button asChild size="lg" variant="outline" className="border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"><Link href="/contact">Book a school visit</Link></Button></div></div><div className="container relative"><div className="grid max-w-4xl grid-cols-2 divide-x divide-white/15 border-t border-white/15 bg-primary/70 text-white backdrop-blur sm:grid-cols-4">{[["Curious", "minds"], ["Caring", "community"], ["Confident", "learners"], ["Bright", "futures"]].map(([top, bottom]) => <div key={top} className="px-4 py-5 text-center"><p className="font-serif text-lg font-semibold">{top}</p><p className="text-xs text-white/65">{bottom}</p></div>)}</div></div></section>
 
-  return (
-    <>
-      {/* 1. Hero */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0">
-          <Image
-            src={SCHOOL_IMAGES.hero}
-            alt="Students on campus"
-            fill
-            priority
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/40" />
-        </div>
-        <div className="container relative py-28 sm:py-36">
-          <p className="text-sm font-semibold uppercase tracking-wide text-accent">
-            Welcome to {SITE_CONFIG.name}
-          </p>
-          <h1 className="mt-3 max-w-2xl font-serif text-4xl font-semibold text-white sm:text-5xl">
-            {SITE_CONFIG.tagline}
-          </h1>
-          <p className="mt-5 max-w-xl text-white/90">{SITE_CONFIG.description}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild size="lg">
-              <Link href="/contact">
-                Schedule a Visit <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/40 bg-white/10 text-white hover:bg-white/20"
-            >
-              <Link href="/about">Learn More</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+    <section className="py-20 sm:py-24"><div className="container"><SectionHeading eyebrow="Our academic programs" title="A learning journey for every stage" description="Purposeful learning, age-appropriate care, and high expectations from the first day of school to graduation." /><div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{programs.map((program) => <Card key={program.title} className="group border-border/70 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg"><CardContent className="p-6"><span className="flex h-12 w-12 items-center justify-center rounded-xl bg-secondary text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground"><program.icon className="h-6 w-6" /></span><h3 className="mt-5 font-serif text-xl font-semibold">{program.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{program.detail}</p><Link href="/contact" className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary">Explore program <ArrowRight className="h-4 w-4" /></Link></CardContent></Card>)}</div></div></section>
 
-      {/* 2. School introduction */}
-      <section className="py-20">
-        <div className="container grid items-center gap-12 lg:grid-cols-2">
-          <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
-            <Image src={SCHOOL_IMAGES.campus} alt="School campus" fill className="object-cover" />
-          </div>
-          <div>
-            <SectionHeading
-              center={false}
-              eyebrow="About our school"
-              title={`A tradition of excellence since ${SITE_CONFIG.foundedYear}`}
-              description={`For over ${new Date().getFullYear() - SITE_CONFIG.foundedYear} years, ${SITE_CONFIG.name} has combined rigorous academics with a warm, supportive community — helping every student discover what they're capable of.`}
-            />
-            <Button asChild className="mt-6">
-              <Link href="/about">
-                More About Us <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+    <section className="overflow-hidden bg-secondary/40 py-20 sm:py-24"><div className="container grid items-center gap-12 lg:grid-cols-2"><div className="relative min-h-[380px] overflow-hidden rounded-[2rem] bg-primary"><Image src={SCHOOL_IMAGES.campus} alt="Life at our school" fill className="object-cover" /><div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent" /><div className="absolute bottom-6 left-6 rounded-xl bg-white/95 px-5 py-4 shadow-lg"><p className="text-2xl font-semibold text-primary">{new Date().getFullYear() - SITE_CONFIG.foundedYear}+</p><p className="text-sm text-muted-foreground">years of nurturing potential</p></div></div><div><p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">About {SITE_CONFIG.shortName}</p><h2 className="mt-3 font-serif text-3xl font-semibold sm:text-4xl">A place to grow, discover, and thrive.</h2><p className="mt-5 leading-relaxed text-muted-foreground">We combine strong academics with joyful discovery, meaningful relationships, and a supportive environment where every child is seen as an individual.</p><div className="mt-7 space-y-3">{["Learning that encourages curiosity and creativity", "A caring community where every child belongs", "Experiences that build character and confidence"].map((item) => <p key={item} className="flex items-start gap-3 text-sm font-medium"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />{item}</p>)}</div><Button asChild className="mt-8"><Link href="/about">Discover our story <ArrowRight /></Link></Button></div></div></section>
 
-      {/* 3. Why choose our school */}
-      <section className="bg-secondary/40 py-20">
-        <div className="container">
-          <SectionHeading
-            eyebrow="Why families choose us"
-            title="Everything your child needs to thrive"
-          />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              { icon: BookOpen, title: "Rigorous Academics", desc: "A curriculum that challenges and inspires curiosity at every grade level." },
-              { icon: Users, title: "Small Class Sizes", desc: "Low student-to-teacher ratios so every student gets individual attention." },
-              { icon: Trophy, title: "Award-Winning Programs", desc: "Recognized excellence in academics, arts, and athletics." },
-              { icon: HeartHandshake, title: "Caring Community", desc: "A close-knit, values-driven environment where every student belongs." },
-            ].map((item) => (
-              <Card key={item.title}>
-                <CardContent className="p-6">
-                  <item.icon className="h-8 w-8 text-primary" />
-                  <h3 className="mt-4 font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.desc}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+    <section className="py-20 sm:py-24"><div className="container"><div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]"><div><p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">Beyond academics</p><h2 className="mt-3 font-serif text-3xl font-semibold sm:text-4xl">More ways to become who you are meant to be.</h2><p className="mt-4 leading-relaxed text-muted-foreground">Learning goes well beyond the classroom. Students develop confidence, teamwork, imagination, and resilience through experiences that matter.</p><Button asChild variant="outline" className="mt-7"><Link href="/gallery">See school life <ArrowRight /></Link></Button></div><div className="grid gap-4 sm:grid-cols-2">{activities.map((activity) => <div key={activity.title} className="flex items-center gap-4 rounded-2xl border bg-card p-5 transition-colors hover:border-primary/30 hover:bg-secondary/30"><span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary"><activity.icon className="h-5 w-5" /></span><p className="font-semibold">{activity.title}</p></div>)}</div></div></div></section>
 
-      {/* 4. Statistics */}
-      <section className="py-16">
-        <div className="container grid grid-cols-2 gap-8 text-center sm:grid-cols-4">
-          {[
-            { value: "1,200+", label: "Students" },
-            { value: "95", label: "Faculty & Staff" },
-            { value: "98%", label: "Graduation Rate" },
-            { value: `${new Date().getFullYear() - SITE_CONFIG.foundedYear}+`, label: "Years of Excellence" },
-          ].map((stat) => (
-            <div key={stat.label}>
-              <p className="font-serif text-4xl font-semibold text-primary">{stat.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{stat.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+    <section className="bg-primary py-20 text-primary-foreground sm:py-24"><div className="container"><SectionHeading eyebrow="Student journey" title="Growing with purpose at every step" description="From a warm welcome to a lifelong connection, we help students become ready for the world ahead." /><div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">{journey.map(([title, description], index) => <div key={title} className="rounded-2xl border border-white/15 bg-white/5 p-6"><span className="font-serif text-4xl font-semibold text-accent">0{index + 1}</span><h3 className="mt-8 font-serif text-xl font-semibold">{title}</h3><p className="mt-3 text-sm leading-relaxed text-white/70">{description}</p></div>)}</div></div></section>
 
-      {/* 5. Featured teachers */}
-      {teachers.length > 0 && (
-        <section className="bg-secondary/40 py-20">
-          <div className="container">
-            <SectionHeading eyebrow="Our educators" title="Meet a few of our faculty" />
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {teachers.map((teacher: any) => (
-                <TeacherCard key={teacher._id} teacher={teacher} />
-              ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Button asChild variant="outline">
-                <Link href="/teachers">
-                  View All Faculty <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 6. Testimonials */}
-      {testimonials.length > 0 && (
-        <section className="py-20">
-          <div className="container">
-            <SectionHeading eyebrow="What families say" title="Trusted by our community" />
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {testimonials.map((t: any) => (
-                <TestimonialCard key={t._id} testimonial={t} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 7. Events / news */}
-      {events.length > 0 && (
-        <section className="bg-secondary/40 py-20">
-          <div className="container">
-            <SectionHeading eyebrow="Stay in the loop" title="Upcoming events" />
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {events.map((event: any) => (
-                <Card key={event._id}>
-                  <CardContent className="p-6">
-                    <Badge variant="secondary" className="mb-3">
-                      <CalendarDays className="h-3 w-3" /> {formatDate(event.startDate)}
-                    </Badge>
-                    <h3 className="font-serif text-lg font-semibold">{event.title}</h3>
-                    {event.location ? (
-                      <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
-                        <MapPin className="h-3.5 w-3.5" /> {event.location}
-                      </p>
-                    ) : null}
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Button asChild variant="outline">
-                <Link href="/events">
-                  View All Events <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 8. Gallery preview */}
-      {gallery.length > 0 && (
-        <section className="py-20">
-          <div className="container">
-            <SectionHeading eyebrow="Life on campus" title="A glimpse into our school" />
-            <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3">
-              {gallery.map((item: any) => (
-                <div key={item._id} className="relative aspect-square overflow-hidden rounded-lg">
-                  <Image src={item.image} alt={item.title} fill className="object-cover transition-transform hover:scale-105" />
-                </div>
-              ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Button asChild variant="outline">
-                <Link href="/gallery">
-                  View Full Gallery <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 9. Call to action */}
-      <section className="relative overflow-hidden py-24">
-        <div className="absolute inset-0">
-          <Image src={SCHOOL_IMAGES.ctaBackground} alt="" fill className="object-cover" />
-          <div className="absolute inset-0 bg-primary/85" />
-        </div>
-        <div className="container relative text-center text-white">
-          <h2 className="font-serif text-3xl font-semibold sm:text-4xl">
-            Ready to join the {SITE_CONFIG.shortName} community?
-          </h2>
-          <p className="mx-auto mt-3 max-w-xl text-white/90">
-            Schedule a campus tour or reach out with any questions — we&apos;d love to hear from you.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild size="lg" variant="secondary">
-              <Link href="/contact">Contact Us</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
-      {/* 10. Contact/footer is rendered globally via SiteFooter in the public layout */}
-    </>
-  );
+    {teachers.length > 0 && <section className="py-20 sm:py-24"><div className="container"><SectionHeading eyebrow="Meet our educators" title="Mentors who make learning personal" description="Our teachers bring expertise, empathy, and a deep belief in what every learner can achieve." /><div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">{teachers.map((teacher: any) => <TeacherCard key={teacher._id} teacher={teacher} />)}</div><div className="mt-10 text-center"><Button asChild variant="outline"><Link href="/teachers">Meet the full faculty <ArrowRight /></Link></Button></div></div></section>}
+    {testimonials.length > 0 && <section className="bg-secondary/40 py-20 sm:py-24"><div className="container"><SectionHeading eyebrow="Trusted by families" title="A community families feel good about" /><div className="mt-12 grid gap-6 md:grid-cols-3">{testimonials.map((testimonial: any) => <TestimonialCard key={testimonial._id} testimonial={testimonial} />)}</div></div></section>}
+    {(events.length > 0 || gallery.length > 0) && <section className="py-20 sm:py-24"><div className="container grid gap-14 lg:grid-cols-[0.9fr_1.1fr]"><div>{events.length > 0 && <><p className="text-sm font-semibold uppercase tracking-[0.15em] text-accent">Stay updated</p><h2 className="mt-3 font-serif text-3xl font-semibold">Latest events and news</h2><div className="mt-7 divide-y border-y">{events.map((event: any) => <Link href="/events" key={event._id} className="group block py-5"><div className="flex gap-4"><span className="flex h-11 w-11 shrink-0 flex-col items-center justify-center rounded-lg bg-secondary text-primary"><span className="text-xs font-semibold">{new Date(event.startDate).toLocaleString("en", { month: "short" })}</span><span className="text-sm font-bold leading-none">{new Date(event.startDate).getDate()}</span></span><div><h3 className="font-semibold transition-colors group-hover:text-primary">{event.title}</h3>{event.location && <p className="mt-1 flex items-center gap-1 text-sm text-muted-foreground"><MapPin className="h-3.5 w-3.5" /> {event.location}</p>}<p className="mt-2 flex items-center gap-1 text-xs text-muted-foreground"><CalendarDays className="h-3.5 w-3.5" /> {formatDate(event.startDate)}</p></div></div></Link>)}</div><Button asChild variant="link" className="mt-4 px-0"><Link href="/events">View all events <ArrowRight /></Link></Button></>}</div>{gallery.length > 0 && <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">{gallery.map((item: any, index: number) => <div key={item._id} className={`relative overflow-hidden rounded-2xl bg-secondary ${index === 0 ? "col-span-2 row-span-2 aspect-square" : "aspect-square"}`}><Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-500 hover:scale-105" /></div>)}</div>}</div></section>}
+    <section className="relative isolate overflow-hidden bg-primary py-20 text-center text-primary-foreground sm:py-24"><Image src={SCHOOL_IMAGES.ctaBackground} alt="" fill className="-z-20 object-cover" /><div className="absolute inset-0 -z-10 bg-primary/90" /><div className="container"><Trophy className="mx-auto h-8 w-8 text-accent" /><h2 className="mx-auto mt-5 max-w-3xl font-serif text-3xl font-semibold sm:text-5xl">A brighter future begins with a meaningful first step.</h2><p className="mx-auto mt-5 max-w-xl text-white/80">Come and see a learning community designed to help your child feel known, capable, and inspired.</p><div className="mt-8 flex flex-wrap justify-center gap-3"><Button asChild size="lg"><Link href="/contact">Apply for admission <ArrowRight /></Link></Button><Button asChild size="lg" variant="outline" className="border-white/35 bg-white/10 text-white hover:bg-white/20 hover:text-white"><Link href="/contact">Book a school visit</Link></Button></div></div></section>
+  </>;
 }

@@ -61,12 +61,7 @@ export function SiteFooter() {
           <p className="mt-3 text-sm text-muted-foreground">
             Staff and faculty can access the CMS to manage site content.
           </p>
-          <Link
-            href="/admin/login"
-            className="mt-3 inline-block text-sm font-medium text-primary hover:underline"
-          >
-            Admin Login →
-          </Link>
+          
         </div>
       </div>
 

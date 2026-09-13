@@ -1,11 +1,11 @@
-import "server-only";
 import { connectToDatabase } from "@/lib/db/connect";
+import ContactMessage from "@/models/ContactMessage";
+import Event from "@/models/Event";
+import GalleryItem from "@/models/GalleryItem";
+import Notice from "@/models/Notice";
 import Teacher from "@/models/Teacher";
 import Testimonial from "@/models/Testimonial";
-import Event from "@/models/Event";
-import Notice from "@/models/Notice";
-import GalleryItem from "@/models/GalleryItem";
-import ContactMessage from "@/models/ContactMessage";
+import "server-only";
 
 /** Deep-clones and strips Mongo internals so data is safe to pass to Client Components. */
 function serialize<T>(doc: T): T {
@@ -56,7 +56,9 @@ export async function getFeaturedTestimonials(limit = 3) {
 
 export async function getPublishedEvents() {
   await connectToDatabase();
-  const events = await Event.find({ published: true }).sort({ startDate: 1 }).lean();
+  const events = await Event.find({ published: true, startDate: { $gte: new Date() } })
+    .sort({ startDate: 1 })
+    .lean();
   return serialize(events);
 }
 
@@ -75,11 +77,13 @@ export async function getPublishedNotices() {
   return serialize(notices);
 }
 
-export async function getPublishedGalleryItems() {
+export async function getPublishedGalleryItems(limit?: number) {
   await connectToDatabase();
-  const items = await GalleryItem.find({ published: true })
+  const query = GalleryItem.find({ published: true })
     .sort({ displayOrder: 1, createdAt: -1 })
     .lean();
+  if (limit) query.limit(limit);
+  const items = await query;
   return serialize(items);
 }
 
