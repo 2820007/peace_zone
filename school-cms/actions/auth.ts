@@ -77,6 +77,7 @@ export async function changePasswordAction(
     return { error: "You must be signed in to do this." };
   }
 
+  // validation form
   const currentPassword = String(formData.get("currentPassword") || "");
   const newPassword = String(formData.get("newPassword") || "");
   const confirmPassword = String(formData.get("confirmPassword") || "");
