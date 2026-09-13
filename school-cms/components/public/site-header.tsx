@@ -1,24 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { GraduationCap, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { NAV_LINKS, SITE_CONFIG } from "@/config/site";
 import { cn } from "@/lib/utils";
+import { ArrowUpRight, GraduationCap, Menu } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
-      <div className="container flex h-16 items-center justify-between">
-        <Link href="/" className="flex items-center gap-2 font-serif text-lg font-semibold">
-          <GraduationCap className="h-6 w-6 text-primary" />
-          {SITE_CONFIG.shortName}
+    <header className="sticky top-0 z-40 border-b border-primary/10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
+      <div className="hidden bg-primary text-xs font-medium uppercase tracking-[0.14em] text-white sm:block">
+        <div className="container flex h-9 items-center justify-between">
+          <p className="text-white/75">A joyful place to learn, lead, and belong</p>
+          <div className="flex items-center gap-5">
+            <Link href="/contact" className="transition-colors hover:text-accent">Inquire</Link>
+            <Link href="/contact" className="transition-colors hover:text-accent">Visit us</Link>
+            <Link href="/contact" className="flex items-center gap-1 text-accent transition-colors hover:text-white">Apply today <ArrowUpRight className="h-3.5 w-3.5" /></Link>
+          </div>
+        </div>
+      </div>
+      <div className="container flex h-[4.5rem] items-center justify-between">
+        <Link href="/" className="flex items-center gap-3 font-serif text-xl font-semibold tracking-tight">
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-primary"><GraduationCap className="h-6 w-6" /></span>
+          <span>{SITE_CONFIG.shortName}</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
@@ -27,8 +37,8 @@ export function SiteHeader() {
               key={link.href}
               href={link.href}
               className={cn(
-                "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
-                pathname === link.href && "bg-secondary text-foreground"
+                "rounded-md px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
+                pathname === link.href && "bg-secondary text-primary"
               )}
             >
               {link.label}
@@ -37,8 +47,8 @@ export function SiteHeader() {
         </nav>
 
         <div className="hidden md:block">
-          <Button asChild size="sm">
-            <Link href="/contact">Contact Us</Link>
+          <Button asChild size="sm" className="px-5 uppercase tracking-[0.08em]">
+            <Link href="/contact">Apply now</Link>
           </Button>
         </div>
 
@@ -58,7 +68,7 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className={cn(
                     "rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
-                    pathname === link.href && "bg-secondary text-foreground"
+                    pathname === link.href && "bg-secondary text-primary"
                   )}
                 >
                   {link.label}

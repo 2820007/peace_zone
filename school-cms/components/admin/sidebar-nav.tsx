@@ -1,18 +1,18 @@
 "use client";
 
+import { cn } from "@/lib/utils";
+import {
+    CalendarDays,
+    GraduationCap,
+    Image as ImageIcon,
+    LayoutDashboard,
+    Mail,
+    Megaphone,
+    MessageSquareQuote,
+    Settings,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  LayoutDashboard,
-  GraduationCap,
-  MessageSquareQuote,
-  Image as ImageIcon,
-  CalendarDays,
-  Megaphone,
-  Mail,
-  Settings,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   LayoutDashboard,
@@ -36,11 +36,12 @@ const NAV_ITEMS = [
   { href: "/admin/settings", label: "Settings", icon: "Settings" },
 ] as const;
 
-export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
+export function SidebarNav({ onNavigate, collapsed = false }: { onNavigate?: () => void; collapsed?: boolean }) {
   const pathname = usePathname();
 
   return (
-    <nav className="flex flex-col gap-1 px-3">
+    <nav className="flex flex-col gap-1 px-3 py-4">
+      {!collapsed && <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Navigation</p>}
       {NAV_ITEMS.map((item) => {
         const Icon = ICONS[item.icon];
         const active = pathname === item.href || pathname.startsWith(item.href + "/");
@@ -49,13 +50,15 @@ export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
             key={item.href}
             href={item.href}
             onClick={onNavigate}
+            title={collapsed ? item.label : undefined}
             className={cn(
-              "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground",
-              active && "bg-primary/10 text-primary hover:bg-primary/10 hover:text-primary"
+              "group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-white/10 hover:text-white",
+              collapsed && "justify-center px-2",
+              active && "bg-primary text-white shadow-sm hover:bg-primary hover:text-white"
             )}
           >
-            <Icon className="h-4 w-4" />
-            {item.label}
+            <Icon className={cn("h-4 w-4 transition-transform group-hover:scale-105", active && "text-primary-foreground")} />
+            {!collapsed && item.label}
           </Link>
         );
       })}

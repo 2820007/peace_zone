@@ -5,32 +5,34 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 152 30% 12%;
+    --foreground: 222 30% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 152 30% 12%;
+    --card-foreground: 222 30% 12%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 222 30% 12%;
 
-    --primary: 151 58% 25%;
+    /* Deep navy — restrained, institutional, trustworthy */
+    --primary: 217 60% 22%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 145 28% 94%;
-    --secondary-foreground: 152 30% 12%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 222 30% 12%;
 
-    --muted: 145 28% 94%;
-    --muted-foreground: 155 12% 42%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 45%;
 
-    --accent: 43 82% 52%;
-    --accent-foreground: 152 30% 12%;
+    /* Warm amber accent, used sparingly */
+    --accent: 38 92% 50%;
+    --accent-foreground: 24 30% 12%;
 
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 145 18% 86%;
-    --input: 145 18% 86%;
-    --ring: 151 58% 25%;
+    --border: 214 22% 90%;
+    --input: 214 22% 90%;
+    --ring: 217 60% 22%;
 
     --radius: 0.5rem;
   }
@@ -39,39 +41,38 @@
 /* The admin area has its own calm blue workspace palette. It is inherited by
    all admin controls without changing the public website's brand colors. */
 .admin-theme {
-  --background: 210 40% 99%;
-  --foreground: 222 47% 14%;
+  --background: 220 24% 97%;
+  --foreground: 222 32% 16%;
   --card: 0 0% 100%;
   --card-foreground: 222 47% 14%;
   --popover: 0 0% 100%;
   --popover-foreground: 222 47% 14%;
-  --primary: 217 91% 45%;
+  --primary: 243 75% 63%;
   --primary-foreground: 0 0% 100%;
-  --secondary: 213 48% 96%;
-  --secondary-foreground: 222 47% 14%;
-  --muted: 213 48% 96%;
-  --muted-foreground: 215 20% 43%;
-  --accent: 213 48% 93%;
-  --accent-foreground: 217 91% 35%;
-  --border: 214 32% 89%;
-  --input: 214 32% 89%;
-  --ring: 217 91% 45%;
+  --secondary: 220 22% 93%;
+  --secondary-foreground: 222 32% 16%;
+  --muted: 220 22% 93%;
+  --muted-foreground: 218 14% 46%;
+  --accent: 243 85% 95%;
+  --accent-foreground: 243 55% 46%;
+  --border: 220 18% 88%;
+  --input: 220 18% 88%;
+  --ring: 243 75% 63%;
 }
 
-/* The analytics dashboard formerly used a green campaign palette. Map those
-   utility accents to the shared admin blue palette during the transition. */
-.admin-theme .dashboard-blue .bg-emerald-50 { background-color: rgb(239 246 255); }
-.admin-theme .dashboard-blue .bg-emerald-100 { background-color: rgb(219 234 254); }
+/* Keep the dashboard accent consistent with the violet workspace palette. */
+.admin-theme .dashboard-blue .bg-emerald-50 { background-color: rgb(245 243 255); }
+.admin-theme .dashboard-blue .bg-emerald-100 { background-color: rgb(221 214 254); }
 .admin-theme .dashboard-blue .bg-emerald-600,
-.admin-theme .dashboard-blue .bg-emerald-700 { background-color: rgb(37 99 235); }
-.admin-theme .dashboard-blue .text-emerald-700 { color: rgb(29 78 216); }
-.admin-theme .dashboard-blue .text-emerald-800 { color: rgb(30 64 175); }
-.admin-theme .dashboard-blue .border-emerald-100 { border-color: rgb(219 234 254); }
-.admin-theme .dashboard-blue .hover\\:bg-emerald-50:hover { background-color: rgb(239 246 255); }
-.admin-theme .dashboard-blue .hover\\:bg-emerald-800:hover { background-color: rgb(30 64 175); }
-.admin-theme .dashboard-blue .hover\\:text-emerald-800:hover { color: rgb(30 64 175); }
-.admin-theme .dashboard-blue .hover\\:border-emerald-200:hover { border-color: rgb(191 219 254); }
-.admin-theme .dashboard-blue .from-emerald-50 { --tw-gradient-from: rgb(239 246 255) var(--tw-gradient-from-position); --tw-gradient-to: rgb(239 246 255 / 0) var(--tw-gradient-to-position); }
+.admin-theme .dashboard-blue .bg-emerald-700 { background-color: rgb(109 40 217); }
+.admin-theme .dashboard-blue .text-emerald-700 { color: rgb(109 40 217); }
+.admin-theme .dashboard-blue .text-emerald-800 { color: rgb(91 33 182); }
+.admin-theme .dashboard-blue .border-emerald-100 { border-color: rgb(221 214 254); }
+.admin-theme .dashboard-blue .hover\\:bg-emerald-50:hover { background-color: rgb(245 243 255); }
+.admin-theme .dashboard-blue .hover\\:bg-emerald-800:hover { background-color: rgb(91 33 182); }
+.admin-theme .dashboard-blue .hover\\:text-emerald-800:hover { color: rgb(91 33 182); }
+.admin-theme .dashboard-blue .hover\\:border-emerald-200:hover { border-color: rgb(196 181 253); }
+.admin-theme .dashboard-blue .from-emerald-50 { --tw-gradient-from: rgb(245 243 255) var(--tw-gradient-from-position); --tw-gradient-to: rgb(245 243 255 / 0) var(--tw-gradient-to-position); }
 
 @layer base {
   * {

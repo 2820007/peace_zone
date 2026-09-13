@@ -56,9 +56,7 @@ export async function getFeaturedTestimonials(limit = 3) {
 
 export async function getPublishedEvents() {
   await connectToDatabase();
-  const events = await Event.find({ published: true, startDate: { $gte: new Date() } })
-    .sort({ startDate: 1 })
-    .lean();
+  const events = await Event.find({ published: true }).sort({ startDate: 1 }).lean();
   return serialize(events);
 }
 
@@ -77,13 +75,11 @@ export async function getPublishedNotices() {
   return serialize(notices);
 }
 
-export async function getPublishedGalleryItems(limit?: number) {
+export async function getPublishedGalleryItems() {
   await connectToDatabase();
-  const query = GalleryItem.find({ published: true })
+  const items = await GalleryItem.find({ published: true })
     .sort({ displayOrder: 1, createdAt: -1 })
     .lean();
-  if (limit) query.limit(limit);
-  const items = await query;
   return serialize(items);
 }
 

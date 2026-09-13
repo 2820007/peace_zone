@@ -5,32 +5,6 @@ import { Mail, Phone, Star } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export function PageHero({
-  eyebrow,
-  title,
-  description,
-  image,
-}: {
-  eyebrow: string;
-  title: string;
-  description: string;
-  image: string;
-}) {
-  return (
-    <section className="relative isolate overflow-hidden bg-primary py-20 sm:py-24">
-      <Image src={image} alt="" fill priority className="-z-20 object-cover" />
-      <div className="absolute inset-0 -z-10 bg-primary/80" />
-      <div className="container">
-        <div className="max-w-2xl text-white">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-accent">{eyebrow}</p>
-          <h1 className="mt-3 font-serif text-4xl font-semibold leading-tight sm:text-5xl">{title}</h1>
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg">{description}</p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export function SectionHeading({
   eyebrow,
   title,
@@ -70,15 +44,14 @@ export function StarRating({ rating }: { rating: number }) {
 
 export function TeacherCard({ teacher }: { teacher: any }) {
   return (
-    <Card className="group overflow-hidden border-border/70 transition-all hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-secondary">
+    <Card className="overflow-hidden transition-shadow hover:shadow-md">
+      <div className="relative aspect-[4/3] w-full bg-secondary">
         <Image
           src={teacher.image || SCHOOL_IMAGES.defaultAvatar}
           alt={teacher.name}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-cover"
         />
-        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/45 to-transparent" />
       </div>
       <CardContent className="p-5">
         <h3 className="font-serif text-lg font-semibold">{teacher.name}</h3>
@@ -96,13 +69,10 @@ export function TeacherCard({ teacher }: { teacher: any }) {
 
 export function TestimonialCard({ testimonial }: { testimonial: any }) {
   return (
-    <Card className="h-full border-border/70 bg-white shadow-sm transition-shadow hover:shadow-lg">
+    <Card className="h-full">
       <CardContent className="flex h-full flex-col p-6">
-        <div className="flex items-start justify-between gap-4">
-          <StarRating rating={testimonial.rating} />
-          <span className="font-serif text-5xl leading-[0.7] text-primary/15">&rdquo;</span>
-        </div>
-        <p className="mt-3 flex-1 text-base leading-relaxed text-foreground/75">
+        <StarRating rating={testimonial.rating} />
+        <p className="mt-4 flex-1 text-sm leading-relaxed text-muted-foreground">
           &ldquo;{testimonial.message}&rdquo;
         </p>
         <div className="mt-5 flex items-center gap-3">
