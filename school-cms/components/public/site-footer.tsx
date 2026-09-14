@@ -5,13 +5,13 @@ import Link from "next/link";
 export function SiteFooter() {
   return (
     <footer className="border-t border-primary/10 bg-secondary/40">
-      <div className="bg-primary py-12 text-white sm:py-14">
+      <div className="bg-primary py-14 text-white sm:py-16">
         <div className="container flex flex-col items-start justify-between gap-7 sm:flex-row sm:items-center">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">Start your journey</p>
             <h2 className="mt-2 max-w-xl font-serif text-3xl font-semibold">Make this your child&apos;s place to grow.</h2>
           </div>
-          <Link href="/contact" className="inline-flex items-center gap-2 border border-white/40 px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] transition-colors hover:border-accent hover:bg-white/10">Plan a visit <ArrowRight className="h-4 w-4" /></Link>
+          <Link href="/contact" className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-accent-foreground transition-colors hover:bg-white">Plan a visit <ArrowRight className="h-4 w-4" /></Link>
         </div>
       </div>
       <div className="container grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_0.8fr_1fr_1fr]">

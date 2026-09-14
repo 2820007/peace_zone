@@ -6,6 +6,7 @@ export interface IEvent extends Document {
   description?: string;
   location?: string;
   image?: string;
+  mediaType?: "image" | "video";
   startDate: Date;
   endDate?: Date;
   published: boolean;
@@ -20,6 +21,7 @@ const EventSchema = new Schema<IEvent>(
     description: { type: String },
     location: { type: String, trim: true },
     image: { type: String },
+    mediaType: { type: String, enum: ["image", "video"] },
     startDate: { type: Date, required: true, index: true },
     endDate: { type: Date },
     published: { type: Boolean, default: true, index: true },

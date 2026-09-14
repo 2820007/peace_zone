@@ -37,7 +37,11 @@ export default async function EventsPage() {
               <Card key={event._id} className="overflow-hidden">
                 {event.image ? (
                   <div className="relative aspect-video w-full">
-                    <Image src={event.image} alt={event.title} fill className="object-cover" />
+                    {event.mediaType === "video" ? (
+                      <video src={event.image} controls preload="metadata" className="h-full w-full object-cover" />
+                    ) : (
+                      <Image src={event.image} alt={event.title} fill className="object-cover" />
+                    )}
                   </div>
                 ) : null}
                 <CardContent className="p-6">

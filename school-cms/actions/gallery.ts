@@ -5,7 +5,7 @@ import { connectToDatabase } from "@/lib/db/connect";
 import GalleryItem from "@/models/GalleryItem";
 import { galleryItemSchema } from "@/lib/validations/content";
 import { getSession } from "@/lib/auth/session";
-import { imageValueFromForm } from "@/lib/cloudinary";
+import { mediaValueFromForm } from "@/lib/cloudinary";
 import type { FormActionState } from "@/actions/teachers";
 
 async function requireAdmin() {
@@ -15,9 +15,11 @@ async function requireAdmin() {
 }
 
 async function parseForm(formData: FormData) {
+  const media = await mediaValueFromForm(formData);
   return galleryItemSchema.safeParse({
     title: String(formData.get("title") || ""),
-    image: await imageValueFromForm(formData),
+    image: media.url,
+    mediaType: media.type || formData.get("mediaType") || undefined,
     category: String(formData.get("category") || ""),
     displayOrder: formData.get("displayOrder") || 0,
     published: formData.get("published") === "on" || formData.get("published") === "true",
@@ -33,7 +35,7 @@ export async function createGalleryItemAction(
   try {
     parsed = await parseForm(formData);
   } catch (error) {
-    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Media upload failed." } };
   }
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
@@ -41,7 +43,7 @@ export async function createGalleryItemAction(
     return { fieldErrors };
   }
   if (!parsed.data.image) {
-    return { fieldErrors: { image: "Please choose an image to upload." } };
+    return { fieldErrors: { image: "Please choose an image or video to upload." } };
   }
   await connectToDatabase();
   try {

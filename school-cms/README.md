@@ -28,6 +28,10 @@ cp .env.example .env.local
 #   CLOUDINARY_CLOUD_NAME
 #   CLOUDINARY_API_KEY
 #   CLOUDINARY_API_SECRET
+# Set these Resend values to email contact form submissions to the office:
+#   RESEND_API_KEY
+#   CONTACT_EMAIL_TO
+#   CONTACT_EMAIL_FROM (a sender address from a domain verified in Resend)
 
 # 3. Make sure MongoDB is running locally (or point MONGODB_URI at Atlas)
 #    e.g. via Docker:
@@ -44,12 +48,12 @@ Visit http://localhost:3000 for the public site and
 http://localhost:3000/admin/login to sign in to the CMS with the seeded
 credentials.
 
-## Image uploads
+## Media uploads
 
-Admin image fields accept local image files instead of URLs. Files up to 5 MB
-are uploaded server-side to Cloudinary and the returned secure URL is saved in
-MongoDB. Existing images remain unchanged when editing unless a replacement
-file is selected.
+Gallery and event fields accept local images and videos. Images up to 5 MB and
+videos up to 50 MB are uploaded server-side to Cloudinary; the returned secure
+URL and media type are saved in MongoDB. Existing media remains unchanged when
+editing unless a replacement file is selected.
 
 ## Project structure
 

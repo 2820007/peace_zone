@@ -36,6 +36,7 @@ interface EventRow {
   description?: string;
   location?: string;
   image?: string;
+  mediaType?: "image" | "video";
   startDate: string;
   endDate?: string;
   published: boolean;
@@ -69,6 +70,7 @@ function EventDialog({
           description: event.description || "",
           location: event.location || "",
           image: event.image || "",
+          mediaType: event.mediaType || "image",
           startDate: event.startDate?.slice(0, 10),
           endDate: event.endDate?.slice(0, 10) || "",
           published: event.published,
@@ -81,7 +83,7 @@ function EventDialog({
     Object.entries(values).forEach(([key, value]) =>
       formData.set(key, value === undefined || value === null ? "" : String(value))
     );
-    if (imageFile) formData.set("image", imageFile);
+    formData.set("media", imageFile || values.image || "");
     const result = event
       ? await updateEventAction(event._id, {}, formData)
       : await createEventAction({}, formData);
@@ -141,9 +143,9 @@ function EventDialog({
             <Input id="location" {...register("location")} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="image">Image</Label>
-            <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
-            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current image." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
+            <Label htmlFor="media">Image or video</Label>
+            <Input id="media" type="file" accept="image/*,video/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current media." : "Images: PNG, JPEG, WebP, or GIF up to 5 MB. Videos up to 50 MB."}</p>
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

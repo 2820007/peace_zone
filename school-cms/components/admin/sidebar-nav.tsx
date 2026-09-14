@@ -7,6 +7,7 @@ import {
     Image as ImageIcon,
     LayoutDashboard,
     Mail,
+    Bell,
     Megaphone,
     MessageSquareQuote,
     Settings,
@@ -22,6 +23,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   CalendarDays,
   Megaphone,
   Mail,
+  Bell,
   Settings,
 };
 
@@ -33,6 +35,7 @@ const NAV_ITEMS = [
   { href: "/admin/events", label: "Events", icon: "CalendarDays" },
   { href: "/admin/notices", label: "Notices", icon: "Megaphone" },
   { href: "/admin/messages", label: "Messages", icon: "Mail" },
+  { href: "/admin/notifications", label: "Notifications", icon: "Bell" },
   { href: "/admin/settings", label: "Settings", icon: "Settings" },
 ] as const;
 
