@@ -36,7 +36,7 @@ interface EventRow {
   description?: string;
   location?: string;
   image?: string;
-  mediaType?: "image" | "video";
+  mediaType?: "image" | "video" | "youtube";
   startDate: string;
   endDate?: string;
   published: boolean;
@@ -71,6 +71,7 @@ function EventDialog({
           location: event.location || "",
           image: event.image || "",
           mediaType: event.mediaType || "image",
+          youtubeUrl: event.mediaType === "youtube" ? event.image : "",
           startDate: event.startDate?.slice(0, 10),
           endDate: event.endDate?.slice(0, 10) || "",
           published: event.published,
@@ -143,9 +144,15 @@ function EventDialog({
             <Input id="location" {...register("location")} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="media">Image or video</Label>
-            <Input id="media" type="file" accept="image/*,video/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
-            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current media." : "Images: PNG, JPEG, WebP, or GIF up to 5 MB. Videos up to 50 MB."}</p>
+            <Label htmlFor="media">Image</Label>
+            <Input id="media" type="file" accept="image/*" onChange={(event) => { setImageFile(event.target.files?.[0] || null); if (event.target.files?.[0]) setValue("youtubeUrl", ""); }} />
+            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current media." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="youtubeUrl">YouTube video link</Label>
+            <Input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." {...register("youtubeUrl", { onChange: () => setImageFile(null) })} />
+            <p className="text-xs text-muted-foreground">Paste a YouTube video or Shorts link to play it on your website.</p>
+            {errors.youtubeUrl && <p className="text-sm text-destructive">{errors.youtubeUrl.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

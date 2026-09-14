@@ -6,6 +6,7 @@ import Event from "@/models/Event";
 import { eventSchema } from "@/lib/validations/content";
 import { getSession } from "@/lib/auth/session";
 import { mediaValueFromForm } from "@/lib/cloudinary";
+import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import type { FormActionState } from "@/actions/teachers";
 
 async function requireAdmin() {
@@ -16,13 +17,17 @@ async function requireAdmin() {
 
 async function parseForm(formData: FormData) {
   const media = await mediaValueFromForm(formData);
+  const youtubeUrl = String(formData.get("youtubeUrl") || "");
+  const youtubeEmbedUrl = youtubeUrl ? getYouTubeEmbedUrl(youtubeUrl) : null;
+  if (youtubeUrl && !youtubeEmbedUrl) throw new Error("Enter a valid YouTube video link.");
   return eventSchema.safeParse({
     title: String(formData.get("title") || ""),
     slug: String(formData.get("slug") || ""),
     description: String(formData.get("description") || ""),
     location: String(formData.get("location") || ""),
-    image: media.url,
-    mediaType: media.type || formData.get("mediaType") || undefined,
+    image: youtubeEmbedUrl || media.url,
+    mediaType: youtubeEmbedUrl ? "youtube" : media.type || formData.get("mediaType") || undefined,
+    youtubeUrl,
     startDate: String(formData.get("startDate") || ""),
     endDate: String(formData.get("endDate") || ""),
     published: formData.get("published") === "on" || formData.get("published") === "true",

@@ -3,24 +3,17 @@ import "server-only";
 import { createHash } from "crypto";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-const MAX_VIDEO_SIZE = 50 * 1024 * 1024;
 const MEDIA_FOLDER = "school-cms";
 
 export type MediaType = "image" | "video";
 
-/** Uploads an image or video to Cloudinary and returns its permanent HTTPS URL. */
+/** Uploads an image to Cloudinary and returns its permanent HTTPS URL. */
 export async function uploadMedia(file: File): Promise<{ url: string; type: MediaType }> {
-  const type: MediaType | null = file.type.startsWith("image/")
-    ? "image"
-    : file.type.startsWith("video/")
-      ? "video"
-      : null;
-  if (!type) {
-    throw new Error("Please choose an image or video file.");
+  if (!file.type.startsWith("image/")) {
+    throw new Error("Please choose an image file.");
   }
-  const maximumSize = type === "video" ? MAX_VIDEO_SIZE : MAX_IMAGE_SIZE;
-  if (file.size > maximumSize) {
-    throw new Error(`${type === "video" ? "Video" : "Image"} must be ${type === "video" ? "50" : "5"} MB or smaller.`);
+  if (file.size > MAX_IMAGE_SIZE) {
+    throw new Error("Image must be 5 MB or smaller.");
   }
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
@@ -42,7 +35,7 @@ export async function uploadMedia(file: File): Promise<{ url: string; type: Medi
   body.append("folder", MEDIA_FOLDER);
   body.append("signature", signature);
 
-  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${type}/upload`, {
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
     method: "POST",
     body,
   });
@@ -50,7 +43,7 @@ export async function uploadMedia(file: File): Promise<{ url: string; type: Medi
   if (!response.ok || !result.secure_url) {
     throw new Error(result.error?.message || "Cloudinary could not upload the media file.");
   }
-  return { url: result.secure_url, type };
+  return { url: result.secure_url, type: "image" };
 }
 
 /** Backward-compatible image-only upload used by non-media CMS sections. */

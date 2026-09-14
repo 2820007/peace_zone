@@ -6,6 +6,7 @@ import GalleryItem from "@/models/GalleryItem";
 import { galleryItemSchema } from "@/lib/validations/content";
 import { getSession } from "@/lib/auth/session";
 import { mediaValueFromForm } from "@/lib/cloudinary";
+import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import type { FormActionState } from "@/actions/teachers";
 
 async function requireAdmin() {
@@ -16,10 +17,14 @@ async function requireAdmin() {
 
 async function parseForm(formData: FormData) {
   const media = await mediaValueFromForm(formData);
+  const youtubeUrl = String(formData.get("youtubeUrl") || "");
+  const youtubeEmbedUrl = youtubeUrl ? getYouTubeEmbedUrl(youtubeUrl) : null;
+  if (youtubeUrl && !youtubeEmbedUrl) throw new Error("Enter a valid YouTube video link.");
   return galleryItemSchema.safeParse({
     title: String(formData.get("title") || ""),
-    image: media.url,
-    mediaType: media.type || formData.get("mediaType") || undefined,
+    image: youtubeEmbedUrl || media.url,
+    mediaType: youtubeEmbedUrl ? "youtube" : media.type || formData.get("mediaType") || undefined,
+    youtubeUrl,
     category: String(formData.get("category") || ""),
     displayOrder: formData.get("displayOrder") || 0,
     published: formData.get("published") === "on" || formData.get("published") === "true",
@@ -43,7 +48,7 @@ export async function createGalleryItemAction(
     return { fieldErrors };
   }
   if (!parsed.data.image) {
-    return { fieldErrors: { image: "Please choose an image or video to upload." } };
+    return { fieldErrors: { image: "Please upload an image or paste a YouTube link." } };
   }
   await connectToDatabase();
   try {

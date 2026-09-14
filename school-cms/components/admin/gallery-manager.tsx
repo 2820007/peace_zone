@@ -30,7 +30,7 @@ interface GalleryItemRow {
   _id: string;
   title: string;
   image: string;
-  mediaType?: "image" | "video";
+  mediaType?: "image" | "video" | "youtube";
   category?: string;
   published: boolean;
 }
@@ -46,6 +46,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<GalleryItemInput>({
     resolver: zodResolver(galleryItemSchema),
@@ -78,7 +79,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Gallery</h1>
-          <p className="text-sm text-muted-foreground">Manage images and videos shown in the public gallery.</p>
+          <p className="text-sm text-muted-foreground">Manage images and YouTube videos shown in the public gallery.</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
@@ -97,10 +98,16 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
                 {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="media">Image or video</Label>
-                <Input id="media" type="file" accept="image/*,video/*" onChange={(event) => setMediaFile(event.target.files?.[0] || null)} />
-                <p className="text-xs text-muted-foreground">Images: PNG, JPEG, WebP, or GIF up to 5 MB. Videos up to 50 MB.</p>
+                <Label htmlFor="media">Image</Label>
+                <Input id="media" type="file" accept="image/*" onChange={(event) => { setMediaFile(event.target.files?.[0] || null); if (event.target.files?.[0]) setValue("youtubeUrl", ""); }} />
+                <p className="text-xs text-muted-foreground">PNG, JPEG, WebP, or GIF; maximum 5 MB.</p>
                 {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="youtubeUrl">YouTube video link</Label>
+                <Input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." {...register("youtubeUrl", { onChange: () => setMediaFile(null) })} />
+                <p className="text-xs text-muted-foreground">Paste a YouTube video or Shorts link to play it on your website.</p>
+                {errors.youtubeUrl && <p className="text-sm text-destructive">{errors.youtubeUrl.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="category">Category (optional)</Label>
@@ -123,7 +130,9 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
           {localItems.map((item) => (
             <div key={item._id} className="overflow-hidden rounded-lg border bg-background">
               <div className="relative aspect-square w-full bg-secondary">
-                {item.mediaType === "video" ? (
+                {item.mediaType === "youtube" ? (
+                  <iframe src={item.image} title={item.title} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                ) : item.mediaType === "video" ? (
                   <video src={item.image} className="h-full w-full object-cover" controls preload="metadata" />
                 ) : (
                   <img src={item.image} alt={item.title} className="h-full w-full object-cover" />

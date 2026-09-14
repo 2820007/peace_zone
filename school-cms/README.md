@@ -50,10 +50,10 @@ credentials.
 
 ## Media uploads
 
-Gallery and event fields accept local images and videos. Images up to 5 MB and
-videos up to 50 MB are uploaded server-side to Cloudinary; the returned secure
-URL and media type are saved in MongoDB. Existing media remains unchanged when
-editing unless a replacement file is selected.
+Gallery and event fields accept local images or a YouTube video link. Images up
+to 5 MB are uploaded server-side to Cloudinary; YouTube links are converted to
+an in-page player URL and play directly in the browser. Existing media remains
+unchanged when editing unless a replacement image or YouTube link is selected.
 
 ## Project structure
 

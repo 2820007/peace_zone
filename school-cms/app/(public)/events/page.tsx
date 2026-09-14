@@ -37,7 +37,9 @@ export default async function EventsPage() {
               <Card key={event._id} className="overflow-hidden">
                 {event.image ? (
                   <div className="relative aspect-video w-full">
-                    {event.mediaType === "video" ? (
+                    {event.mediaType === "youtube" ? (
+                      <iframe src={event.image} title={event.title} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                    ) : event.mediaType === "video" ? (
                       <video src={event.image} controls preload="metadata" className="h-full w-full object-cover" />
                     ) : (
                       <Image src={event.image} alt={event.title} fill className="object-cover" />

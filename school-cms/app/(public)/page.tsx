@@ -362,7 +362,9 @@ export default async function HomePage() {
                     key={item._id}
                     className={`relative overflow-hidden rounded-2xl bg-secondary ${index === 0 ? "col-span-2 row-span-2 aspect-square" : "aspect-square"}`}
                   >
-                    {item.mediaType === "video" ? (
+                    {item.mediaType === "youtube" ? (
+                      <iframe src={item.image} title={item.title} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                    ) : item.mediaType === "video" ? (
                       <video src={item.image} controls preload="metadata" className="h-full w-full object-cover" />
                     ) : (
                       <Image
