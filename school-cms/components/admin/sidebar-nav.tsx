@@ -2,12 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import {
+    Bell,
     CalendarDays,
     GraduationCap,
     Image as ImageIcon,
+    ImagePlus,
     LayoutDashboard,
     Mail,
-    Bell,
     Megaphone,
     MessageSquareQuote,
     Settings,
@@ -20,6 +21,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   GraduationCap,
   MessageSquareQuote,
   Image: ImageIcon,
+  ImagePlus,
   CalendarDays,
   Megaphone,
   Mail,
@@ -32,6 +34,7 @@ const NAV_ITEMS = [
   { href: "/admin/teachers", label: "Teachers", icon: "GraduationCap" },
   { href: "/admin/testimonials", label: "Testimonials", icon: "MessageSquareQuote" },
   { href: "/admin/gallery", label: "Gallery", icon: "Image" },
+  { href: "/admin/banners", label: "Homepage Banners", icon: "ImagePlus" },
   { href: "/admin/events", label: "Events", icon: "CalendarDays" },
   { href: "/admin/notices", label: "Notices", icon: "Megaphone" },
   { href: "/admin/messages", label: "Messages", icon: "Mail" },

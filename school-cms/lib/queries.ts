@@ -1,4 +1,5 @@
 import { connectToDatabase } from "@/lib/db/connect";
+import Banner from "@/models/Banner";
 import ContactMessage from "@/models/ContactMessage";
 import Event from "@/models/Event";
 import GalleryItem from "@/models/GalleryItem";
@@ -83,6 +84,14 @@ export async function getPublishedGalleryItems() {
   return serialize(items);
 }
 
+export async function getPublishedBanners() {
+  await connectToDatabase();
+  const banners = await Banner.find({ published: true })
+    .sort({ displayOrder: 1, createdAt: -1 })
+    .lean();
+  return serialize(banners);
+}
+
 // ---------- ADMIN (all records, auth enforced by middleware + layout) ----------
 
 export async function getAllTeachers() {
@@ -137,6 +146,12 @@ export async function getAllGalleryItems() {
   await connectToDatabase();
   const items = await GalleryItem.find({}).sort({ createdAt: -1 }).lean();
   return serialize(items);
+}
+
+export async function getAllBanners() {
+  await connectToDatabase();
+  const banners = await Banner.find({}).sort({ displayOrder: 1, createdAt: -1 }).lean();
+  return serialize(banners);
 }
 
 export async function getAllMessages() {

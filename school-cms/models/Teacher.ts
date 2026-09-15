@@ -12,6 +12,7 @@ export interface ITeacher extends Document {
   designation: string;
   qualification?: string;
   department?: string;
+  level?: "secondary" | "higher_secondary";
   bio?: string;
   image?: string;
   email?: string;
@@ -37,6 +38,12 @@ const TeacherSchema = new Schema<ITeacher>(
     designation: { type: String, required: true, trim: true },
     qualification: { type: String, trim: true },
     department: { type: String, trim: true, index: true },
+    level: {
+      type: String,
+      enum: ["secondary", "higher_secondary"],
+      default: "secondary",
+      index: true,
+    },
     bio: { type: String },
     image: { type: String },
     email: { type: String, trim: true, lowercase: true },

@@ -40,6 +40,17 @@ export const galleryItemSchema = z.object({
 });
 export type GalleryItemInput = z.infer<typeof galleryItemSchema>;
 
+export const bannerSchema = z.object({
+  title: z.string().min(2, "Heading is required"),
+  subtitle: z.string().max(240, "Text must be 240 characters or fewer").optional().or(z.literal("")),
+  image: z.string().url("Upload a valid banner image").optional().or(z.literal("")),
+  buttonLabel: z.string().max(40).optional().or(z.literal("")),
+  buttonHref: z.string().max(200).optional().or(z.literal("")),
+  displayOrder: z.coerce.number().int().min(0).default(0),
+  published: z.boolean().default(false),
+});
+export type BannerInput = z.infer<typeof bannerSchema>;
+
 export const contactMessageSchema = z.object({
   name: z.string().min(2, "Name is required"),
   email: z.string().email("Enter a valid email address"),

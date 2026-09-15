@@ -2,7 +2,7 @@ import "server-only";
 
 import { createHash } from "crypto";
 
-const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const MAX_IMAGE_SIZE = 50 * 1024 * 1024;
 const MEDIA_FOLDER = "school-cms";
 
 export type MediaType = "image" | "video";
@@ -13,7 +13,7 @@ export async function uploadMedia(file: File): Promise<{ url: string; type: Medi
     throw new Error("Please choose an image file.");
   }
   if (file.size > MAX_IMAGE_SIZE) {
-    throw new Error("Image must be 5 MB or smaller.");
+    throw new Error("Image must be 50 MB or smaller.");
   }
 
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;

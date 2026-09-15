@@ -4,17 +4,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getDashboardStats } from "@/lib/queries";
 import { cn, formatDate } from "@/lib/utils";
 import {
-  ArrowRight,
-  Bell,
-  CalendarDays,
-  CheckCircle2,
-  ClipboardList,
-  GraduationCap,
-  Mail,
-  Megaphone,
-  PenLine,
-  Plus,
-  TrendingUp,
+    ArrowRight,
+    Bell,
+    CalendarDays,
+    CheckCircle2,
+    ClipboardList,
+    GraduationCap,
+    Mail,
+    Megaphone,
+    PenLine,
+    TrendingUp
 } from "lucide-react";
 import Link from "next/link";
 
@@ -271,7 +270,10 @@ export default async function AdminDashboardPage() {
             asChild
             className="relative shrink-0 bg-white text-blue-800 shadow-sm hover:bg-blue-50 hover:text-blue-900"
           >
-           
+            <Link href="/admin/notifications" className="inline-flex items-center gap-2">
+              <Bell className="h-4 w-4" />
+              Send message
+            </Link>
           </Button>
         </div>
       </section>

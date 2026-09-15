@@ -1,11 +1,11 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { connectToDatabase } from "@/lib/db/connect";
-import Teacher from "@/models/Teacher";
-import { teacherSchema } from "@/lib/validations/teacher";
 import { getSession } from "@/lib/auth/session";
 import { imageValueFromForm } from "@/lib/cloudinary";
+import { connectToDatabase } from "@/lib/db/connect";
+import { teacherSchema } from "@/lib/validations/teacher";
+import Teacher from "@/models/Teacher";
+import { revalidatePath } from "next/cache";
 
 export interface FormActionState {
   success?: boolean;
@@ -28,6 +28,7 @@ async function parseTeacherForm(formData: FormData) {
     designation: String(formData.get("designation") || ""),
     qualification: String(formData.get("qualification") || ""),
     department: String(formData.get("department") || ""),
+    level: String(formData.get("level") || "secondary"),
     bio: String(formData.get("bio") || ""),
     image: await imageValueFromForm(formData),
     email: String(formData.get("email") || ""),

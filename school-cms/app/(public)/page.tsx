@@ -1,34 +1,34 @@
+import { BannerCarousel } from "@/components/public/banner-carousel";
 import {
-  SectionHeading,
-  TeacherCard,
-  TestimonialCard,
+    SectionHeading,
+    TeacherCard,
+    TestimonialCard,
 } from "@/components/public/shared";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { SCHOOL_IMAGES, SITE_CONFIG } from "@/config/site";
 import {
-  getFeaturedTeachers,
-  getFeaturedTestimonials,
-  getPublishedGalleryItems,
-  getUpcomingEvents,
+    getFeaturedTeachers,
+    getFeaturedTestimonials,
+    getPublishedBanners,
+    getPublishedGalleryItems,
+    getUpcomingEvents,
 } from "@/lib/queries";
 import { formatDate } from "@/lib/utils";
 import {
-  ArrowRight,
-  Award,
-  BookOpen,
-  CalendarDays,
-  CheckCircle2,
-  Dumbbell,
-  GraduationCap,
-  MapPin,
-  Microscope,
-  Music2,
-  Palette,
-  Rocket,
-  Sparkles,
-  Trophy,
-  Users,
+    ArrowRight,
+    BookOpen,
+    CalendarDays,
+    CheckCircle2,
+    Dumbbell,
+    MapPin,
+    Microscope,
+    Music2,
+    Palette,
+    Rocket,
+    Sparkles,
+    Trophy,
+    Users
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -81,7 +81,8 @@ const journey = [
 ];
 
 export default async function HomePage() {
-  const [teachers, testimonials, events, galleryItems] = await Promise.all([
+  const [banners, teachers, testimonials, events, galleryItems] = await Promise.all([
+    getPublishedBanners(),
     getFeaturedTeachers(4),
     getFeaturedTestimonials(3),
     getUpcomingEvents(3),
@@ -91,7 +92,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Hero section: admissions introduction and primary actions */}
-      
+      {banners.length > 0 ? <BannerCarousel banners={banners as any} /> : null}
 
       {/* Academic programs section */}
       <section className="py-20 sm:py-24">
