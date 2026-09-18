@@ -60,6 +60,32 @@
   --ring: 243 75% 63%;
 }
 
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+.animate-float-slow {
+  animation: float 7s ease-in-out infinite;
+}
+
+.animate-float-medium {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-fast {
+  animation: float 5s ease-in-out infinite;
+}
+
+
+
 /* Keep the dashboard accent consistent with the violet workspace palette. */
 .admin-theme .dashboard-blue .bg-emerald-50 { background-color: rgb(245 243 255); }
 .admin-theme .dashboard-blue .bg-emerald-100 { background-color: rgb(221 214 254); }
@@ -73,6 +99,21 @@
 .admin-theme .dashboard-blue .hover\\:text-emerald-800:hover { color: rgb(91 33 182); }
 .admin-theme .dashboard-blue .hover\\:border-emerald-200:hover { border-color: rgb(196 181 253); }
 .admin-theme .dashboard-blue .from-emerald-50 { --tw-gradient-from: rgb(245 243 255) var(--tw-gradient-from-position); --tw-gradient-to: rgb(245 243 255 / 0) var(--tw-gradient-to-position); }
+
+@keyframes gentle-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.gentle-float {
+  animation: gentle-float 5s ease-in-out infinite;
+}
 
 @layer base {
   * {

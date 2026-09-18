@@ -5,20 +5,19 @@
  */
 
 export const SITE_CONFIG = {
-  name: "PeaceZone Academy",
-  shortName: "peaceZone",
-  tagline: "Curious minds. Confident futures.",
+  name: "Peace Zone Academy",
+  shortName: "Peace Zone",
+  tagline: "Affiliated to NEB Nepal. Building futures through education.",
   description:
-    "PeaceZone Academy is a K-12 school dedicated to academic excellence, character, and community — preparing every student for a confident future.",
-  address: "482 Maple Grove Road, Springfield, IL 62704",
-  phone: "+1 (217) 555-0142",
-  email: "info@northfieldacademy.example.edu",
+    "Peace Zone Academy is an NEB-affiliated college in Vishwa-15, Birgunj, offering Science, Management, and Law streams at the +2 level.",
+  address: "Vishwa-15, Birgunj, Nepal",
+  phone: "+977 985-5033388",
+  email: "peacezoneacademy9@gmail.com",
   socials: {
-    facebook: "https://facebook.com/northfieldacademy",
-    instagram: "https://instagram.com/northfieldacademy",
-    youtube: "https://youtube.com/@northfieldacademy",
+    facebook: "https://www.facebook.com/peacezonecollege/",
+    instagram: "https://www.instagram.com/peacezoneacademy9",
+    website: "http://www.peacezoneacademy.edu.np/",
   },
-  foundedYear: 1994,
   url: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
 };
 
@@ -37,6 +36,7 @@ export const SCHOOL_IMAGES = {
   teachersHero: "https://images.unsplash.com/photo-1580894732444-8ecded7900cd?w=1600&q=80",
   testimonialsHero: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=80",
   defaultAvatar: "https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=400&q=80",
+  brighterFuture: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=1600&q=80",
   gallery: [
     "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
     "https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80",
@@ -49,15 +49,40 @@ export const SCHOOL_IMAGES = {
 
 
 
-export const NAV_LINKS = [
+export type NavigationLink = {
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+};
+
+export const NAV_LINKS: NavigationLink[] = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About" },
-  { href: "/teachers", label: "Teachers" },
-  { href: "/testimonials", label: "Testimonials" },
-  { href: "/gallery", label: "Gallery" },
-  { href: "/events", label: "Events" },
-  { href: "/notices", label: "Notices" },
+  {
+    href: "/programs/primary-school",
+    label: "Program",
+    children: [
+      { href: "/programs/primary-school", label: "Primary School" },
+      { href: "/programs/secondary-school", label: "Secondary School" },
+      { href: "/programs/plus-two-management", label: "+2 Management" },
+      { href: "/school-policies", label: "School Policies & Guidelines" },
+    ],
+  },
+  {
+    href: "/teachers",
+    label: "Teacher",
+    children: [
+      { href: "/teachers", label: "School" },
+      { href: "/teachers", label: "+2 Management" },
+    ],
+  },
+  {
+    href: "/events",
+    label: "Events",
+    children: [{ href: "/notices", label: "Notices" }],
+  },
   { href: "/contact", label: "Contact" },
+  { href: "/admission", label: "Admission" },
 ];
 
 export const ADMIN_NAV_LINKS = [

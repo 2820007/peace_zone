@@ -57,7 +57,7 @@ export default function ContactPage() {
                 <Clock className="h-5 w-5 shrink-0 text-primary" />
                 <div>
                   <p className="text-sm font-medium">Office Hours</p>
-                  <p className="text-sm text-muted-foreground">Mon–Fri, 8:00 AM – 4:00 PM</p>
+                  <p className="text-sm text-muted-foreground">Contact the academy for office hours.</p>
                 </div>
               </CardContent>
             </Card>
