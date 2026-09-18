@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+export function normalizeBannerInput(input: Record<string, unknown>) {
+  const toText = (value: unknown) => String(value ?? "").trim();
+  const toBool = (value: unknown) => value === true || value === "true" || value === "on" || value === 1;
+
+  return {
+    title: toText(input.title).replace(/\s+/g, " "),
+    subtitle: toText(input.subtitle).replace(/\s+/g, " "),
+    image: toText(input.image),
+    buttonLabel: toText(input.buttonLabel),
+    buttonHref: toText(input.buttonHref),
+    displayOrder: Number(input.displayOrder ?? 0),
+    published: toBool(input.published),
+  };
+}
+
 export const eventSchema = z.object({
   title: z.string().min(2, "Title is required"),
   slug: z
@@ -40,15 +55,17 @@ export const galleryItemSchema = z.object({
 });
 export type GalleryItemInput = z.infer<typeof galleryItemSchema>;
 
-export const bannerSchema = z.object({
-  title: z.string().min(2, "Heading is required"),
-  subtitle: z.string().max(240, "Text must be 240 characters or fewer").optional().or(z.literal("")),
-  image: z.string().url("Upload a valid banner image").optional().or(z.literal("")),
-  buttonLabel: z.string().max(40).optional().or(z.literal("")),
-  buttonHref: z.string().max(200).optional().or(z.literal("")),
-  displayOrder: z.coerce.number().int().min(0).default(0),
-  published: z.boolean().default(false),
-});
+export const bannerSchema = z
+  .object({
+    title: z.string().min(2, "Heading is required"),
+    subtitle: z.string().max(240, "Text must be 240 characters or fewer").optional().or(z.literal("")),
+    image: z.string().url("Upload a valid banner image").optional().or(z.literal("")),
+    buttonLabel: z.string().max(40).optional().or(z.literal("")),
+    buttonHref: z.string().max(200).optional().or(z.literal("")),
+    displayOrder: z.coerce.number().int().min(0).default(0),
+    published: z.boolean().default(false),
+  })
+  .transform((data) => normalizeBannerInput(data));
 export type BannerInput = z.infer<typeof bannerSchema>;
 
 export const contactMessageSchema = z.object({
