@@ -1,19 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+import type { FormActionState } from "@/actions/teachers";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { Card, CardContent } from "@/components/ui/card";
-import { teacherSchema, type TeacherInput } from "@/lib/validations/teacher";
+import { Textarea } from "@/components/ui/textarea";
 import { slugify } from "@/lib/utils";
-import type { FormActionState } from "@/actions/teachers";
+import { teacherSchema, type TeacherInput } from "@/lib/validations/teacher";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 interface TeacherFormProps {
   defaultValues?: Partial<TeacherInput>;
@@ -112,6 +112,20 @@ export function TeacherForm({ defaultValues, action, submitLabel }: TeacherFormP
           <div className="space-y-2">
             <Label htmlFor="department">Department</Label>
             <Input id="department" placeholder="Mathematics" {...register("department")} />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="level">School Level</Label>
+            <select
+              id="level"
+              defaultValue={defaultValues?.level || "secondary"}
+              {...register("level")}
+              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <option value="secondary">Secondary</option>
+              <option value="higher_secondary">Higher Secondary</option>
+            </select>
+            {errors.level && <p className="text-sm text-destructive">{errors.level.message}</p>}
           </div>
 
           <div className="space-y-2">

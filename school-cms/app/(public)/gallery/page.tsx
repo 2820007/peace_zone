@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "Gallery",
-  description: `Photos from campus life at ${SITE_CONFIG.name}.`,
+  description: `Photos and videos from campus life at ${SITE_CONFIG.name}.`,
 };
 
 function isVideoUrl(value: string) {
@@ -28,7 +28,13 @@ export default async function GalleryPage() {
           {imageItems.map((item: any) => (
             <div key={item._id} className="mb-4 break-inside-avoid overflow-hidden rounded-lg">
               <div className="relative w-full" style={{ aspectRatio: "4 / 3" }}>
-                <Image src={item.image} alt={item.title} fill className="object-cover" />
+                {item.mediaType === "youtube" ? (
+                  <iframe src={item.image} title={item.title} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                ) : item.mediaType === "video" ? (
+                  <video src={item.image} controls preload="metadata" className="h-full w-full object-cover" />
+                ) : (
+                  <Image src={item.image} alt={item.title} fill className="object-cover" />
+                )}
               </div>
             </div>
           ))}

@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   description: `Upcoming events and news from ${SITE_CONFIG.name}.`,
 };
 
+function isVideoUrl(value: string) {
+  return /(?:youtube(?:-nocookie)?\.com|youtu\.be)/i.test(value);
+}
+
 export default async function EventsPage() {
   const events = await getPublishedEvents();
 
@@ -37,7 +41,13 @@ export default async function EventsPage() {
               <Card key={event._id} className="overflow-hidden">
                 {event.image ? (
                   <div className="relative aspect-video w-full">
-                    <Image src={event.image} alt={event.title} fill className="object-cover" />
+                    {event.mediaType === "youtube" || isVideoUrl(event.image) ? (
+                      <iframe src={event.image} title={event.title} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                    ) : event.mediaType === "video" ? (
+                      <video src={event.image} controls preload="metadata" className="h-full w-full object-cover" />
+                    ) : (
+                      <Image src={event.image} alt={event.title} fill className="object-cover" />
+                    )}
                   </div>
                 ) : null}
                 <CardContent className="p-6">

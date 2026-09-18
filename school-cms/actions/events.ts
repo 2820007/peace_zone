@@ -5,7 +5,8 @@ import { connectToDatabase } from "@/lib/db/connect";
 import Event from "@/models/Event";
 import { eventSchema } from "@/lib/validations/content";
 import { getSession } from "@/lib/auth/session";
-import { imageValueFromForm } from "@/lib/cloudinary";
+import { mediaValueFromForm } from "@/lib/cloudinary";
+import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import type { FormActionState } from "@/actions/teachers";
 
 async function requireAdmin() {
@@ -15,12 +16,18 @@ async function requireAdmin() {
 }
 
 async function parseForm(formData: FormData) {
+  const media = await mediaValueFromForm(formData);
+  const youtubeUrl = String(formData.get("youtubeUrl") || "");
+  const youtubeEmbedUrl = youtubeUrl ? getYouTubeEmbedUrl(youtubeUrl) : null;
+  if (youtubeUrl && !youtubeEmbedUrl) throw new Error("Enter a valid YouTube video link.");
   return eventSchema.safeParse({
     title: String(formData.get("title") || ""),
     slug: String(formData.get("slug") || ""),
     description: String(formData.get("description") || ""),
     location: String(formData.get("location") || ""),
-    image: await imageValueFromForm(formData),
+    image: youtubeEmbedUrl || media.url,
+    mediaType: youtubeEmbedUrl ? "youtube" : media.type || formData.get("mediaType") || undefined,
+    youtubeUrl,
     startDate: String(formData.get("startDate") || ""),
     endDate: String(formData.get("endDate") || ""),
     published: formData.get("published") === "on" || formData.get("published") === "true",
@@ -36,7 +43,7 @@ export async function createEventAction(
   try {
     parsed = await parseForm(formData);
   } catch (error) {
-    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Media upload failed." } };
   }
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
@@ -72,7 +79,7 @@ export async function updateEventAction(
   try {
     parsed = await parseForm(formData);
   } catch (error) {
-    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Media upload failed." } };
   }
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};

@@ -11,6 +11,9 @@ const nextConfig = {
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "**.unsplash.com" },
       { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "img.youtube.com" },
+      { protocol: "https", hostname: "www.youtube.com" },
+      { protocol: "https", hostname: "www.youtube-nocookie.com" },
     ],
   },
 };

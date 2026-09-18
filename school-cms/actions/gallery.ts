@@ -5,7 +5,8 @@ import { connectToDatabase } from "@/lib/db/connect";
 import GalleryItem from "@/models/GalleryItem";
 import { galleryItemSchema } from "@/lib/validations/content";
 import { getSession } from "@/lib/auth/session";
-import { imageValueFromForm } from "@/lib/cloudinary";
+import { mediaValueFromForm } from "@/lib/cloudinary";
+import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import type { FormActionState } from "@/actions/teachers";
 
 async function requireAdmin() {
@@ -15,9 +16,15 @@ async function requireAdmin() {
 }
 
 async function parseForm(formData: FormData) {
+  const media = await mediaValueFromForm(formData);
+  const youtubeUrl = String(formData.get("youtubeUrl") || "");
+  const youtubeEmbedUrl = youtubeUrl ? getYouTubeEmbedUrl(youtubeUrl) : null;
+  if (youtubeUrl && !youtubeEmbedUrl) throw new Error("Enter a valid YouTube video link.");
   return galleryItemSchema.safeParse({
     title: String(formData.get("title") || ""),
-    image: await imageValueFromForm(formData),
+    image: youtubeEmbedUrl || media.url,
+    mediaType: youtubeEmbedUrl ? "youtube" : media.type || formData.get("mediaType") || undefined,
+    youtubeUrl,
     category: String(formData.get("category") || ""),
     displayOrder: formData.get("displayOrder") || 0,
     published: formData.get("published") === "on" || formData.get("published") === "true",
@@ -33,7 +40,7 @@ export async function createGalleryItemAction(
   try {
     parsed = await parseForm(formData);
   } catch (error) {
-    return { fieldErrors: { image: error instanceof Error ? error.message : "Image upload failed." } };
+    return { fieldErrors: { image: error instanceof Error ? error.message : "Media upload failed." } };
   }
   if (!parsed.success) {
     const fieldErrors: Record<string, string> = {};
@@ -41,7 +48,7 @@ export async function createGalleryItemAction(
     return { fieldErrors };
   }
   if (!parsed.data.image) {
-    return { fieldErrors: { image: "Please choose an image to upload." } };
+    return { fieldErrors: { image: "Please upload an image or paste a YouTube link." } };
   }
   await connectToDatabase();
   try {

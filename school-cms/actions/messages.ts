@@ -1,11 +1,12 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { connectToDatabase } from "@/lib/db/connect";
-import ContactMessage from "@/models/ContactMessage";
-import { contactMessageSchema } from "@/lib/validations/content";
-import { getSession } from "@/lib/auth/session";
 import type { FormActionState } from "@/actions/teachers";
+import { getSession } from "@/lib/auth/session";
+import { connectToDatabase } from "@/lib/db/connect";
+import { sendContactNotification } from "@/lib/email";
+import { contactMessageSchema } from "@/lib/validations/content";
+import ContactMessage from "@/models/ContactMessage";
+import { revalidatePath } from "next/cache";
 
 async function requireAdmin() {
   const session = await getSession();
@@ -38,6 +39,15 @@ export async function submitContactMessageAction(
   } catch (err) {
     console.error("submitContactMessageAction failed:", err);
     return { error: "We couldn't send your message. Please try again shortly." };
+  }
+
+  try {
+    await sendContactNotification(parsed.data);
+  } catch (err) {
+    console.error("Contact email notification failed:", err);
+    return {
+      error: "Your message was saved, but we couldn't notify the office by email. Please try again later.",
+    };
   }
 
   revalidatePath("/admin/messages");

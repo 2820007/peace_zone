@@ -36,6 +36,7 @@ interface EventRow {
   description?: string;
   location?: string;
   image?: string;
+  mediaType?: "image" | "video" | "youtube";
   startDate: string;
   endDate?: string;
   published: boolean;
@@ -69,6 +70,8 @@ function EventDialog({
           description: event.description || "",
           location: event.location || "",
           image: event.image || "",
+          mediaType: event.mediaType || "image",
+          youtubeUrl: event.mediaType === "youtube" ? event.image : "",
           startDate: event.startDate?.slice(0, 10),
           endDate: event.endDate?.slice(0, 10) || "",
           published: event.published,
@@ -81,7 +84,7 @@ function EventDialog({
     Object.entries(values).forEach(([key, value]) =>
       formData.set(key, value === undefined || value === null ? "" : String(value))
     );
-    if (imageFile) formData.set("image", imageFile);
+    formData.set("media", imageFile || values.image || "");
     const result = event
       ? await updateEventAction(event._id, {}, formData)
       : await createEventAction({}, formData);
@@ -141,9 +144,15 @@ function EventDialog({
             <Input id="location" {...register("location")} />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="image">Image</Label>
-            <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
-            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current image." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
+            <Label htmlFor="media">Image</Label>
+            <Input id="media" type="file" accept="image/*" onChange={(event) => { setImageFile(event.target.files?.[0] || null); if (event.target.files?.[0]) setValue("youtubeUrl", ""); }} />
+            <p className="text-xs text-muted-foreground">{event?.image ? "Leave blank to keep the current media." : "PNG, JPEG, WebP, or GIF; maximum 5 MB."}</p>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="youtubeUrl">YouTube video link</Label>
+            <Input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." {...register("youtubeUrl", { onChange: () => setImageFile(null) })} />
+            <p className="text-xs text-muted-foreground">Paste a YouTube video or Shorts link to play it on your website.</p>
+            {errors.youtubeUrl && <p className="text-sm text-destructive">{errors.youtubeUrl.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -31,6 +30,7 @@ interface GalleryItemRow {
   _id: string;
   title: string;
   image: string;
+  mediaType?: "image" | "video" | "youtube";
   category?: string;
   published: boolean;
 }
@@ -38,7 +38,7 @@ interface GalleryItemRow {
 export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
   const [open, setOpen] = useState(false);
   const [localItems, setLocalItems] = useState(items);
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
 
   useEffect(() => setLocalItems(items), [items]);
 
@@ -46,6 +46,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<GalleryItemInput>({
     resolver: zodResolver(galleryItemSchema),
@@ -57,7 +58,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
     Object.entries(values).forEach(([key, value]) =>
       formData.set(key, value === undefined || value === null ? "" : String(value))
     );
-    if (imageFile) formData.set("image", imageFile);
+    if (mediaFile) formData.set("media", mediaFile);
     const result = await createGalleryItemAction({}, formData);
     if (result.error) {
       toast.error(result.error);
@@ -67,9 +68,9 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
       toast.error(Object.values(result.fieldErrors)[0]);
       return;
     }
-    toast.success("Photo added.");
+    toast.success("Media added.");
     reset();
-    setImageFile(null);
+    setMediaFile(null);
     setOpen(false);
   }
 
@@ -78,17 +79,17 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-semibold">Gallery</h1>
-          <p className="text-sm text-muted-foreground">Manage photos shown in the public gallery.</p>
+          <p className="text-sm text-muted-foreground">Manage images and YouTube videos shown in the public gallery.</p>
         </div>
         <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger asChild>
             <Button>
-              <Plus className="h-4 w-4" /> Add Photo
+              <Plus className="h-4 w-4" /> Add Media
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add a Photo</DialogTitle>
+              <DialogTitle>Add Media</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="space-y-2">
@@ -97,10 +98,16 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
                 {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label htmlFor="image">Image</Label>
-                <Input id="image" type="file" accept="image/*" onChange={(event) => setImageFile(event.target.files?.[0] || null)} />
+                <Label htmlFor="media">Image</Label>
+                <Input id="media" type="file" accept="image/*" onChange={(event) => { setMediaFile(event.target.files?.[0] || null); if (event.target.files?.[0]) setValue("youtubeUrl", ""); }} />
                 <p className="text-xs text-muted-foreground">PNG, JPEG, WebP, or GIF; maximum 5 MB.</p>
                 {errors.image && <p className="text-sm text-destructive">{errors.image.message}</p>}
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="youtubeUrl">YouTube video link</Label>
+                <Input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=..." {...register("youtubeUrl", { onChange: () => setMediaFile(null) })} />
+                <p className="text-xs text-muted-foreground">Paste a YouTube video or Shorts link to play it on your website.</p>
+                {errors.youtubeUrl && <p className="text-sm text-destructive">{errors.youtubeUrl.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="category">Category (optional)</Label>
@@ -108,7 +115,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
               </div>
               <DialogFooter>
                 <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? "Adding..." : "Add Photo"}
+                  {isSubmitting ? "Adding..." : "Add Media"}
                 </Button>
               </DialogFooter>
             </form>
@@ -117,13 +124,19 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
       </div>
 
       {localItems.length === 0 ? (
-        <EmptyState title="No gallery photos found" />
+        <EmptyState title="No gallery media found" />
       ) : (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {localItems.map((item) => (
             <div key={item._id} className="overflow-hidden rounded-lg border bg-background">
               <div className="relative aspect-square w-full bg-secondary">
-                <Image src={item.image} alt={item.title} fill className="object-cover" />
+                {item.mediaType === "youtube" ? (
+                  <iframe src={item.image} title={item.title} className="h-full w-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen />
+                ) : item.mediaType === "video" ? (
+                  <video src={item.image} className="h-full w-full object-cover" controls preload="metadata" />
+                ) : (
+                  <img src={item.image} alt={item.title} className="h-full w-full object-cover" />
+                )}
               </div>
               <div className="space-y-3 p-3">
                 <p className="truncate text-sm font-medium">{item.title}</p>
@@ -134,7 +147,7 @@ export function GalleryManager({ items }: { items: GalleryItemRow[] }) {
                     itemLabel={item.title}
                     onToggle={toggleGalleryItemPublishedAction}
                   />
-                  <DeleteConfirm itemLabel="photo" onDelete={() => deleteGalleryItemAction(item._id)} />
+                  <DeleteConfirm itemLabel="media item" onDelete={() => deleteGalleryItemAction(item._id)} />
                 </div>
               </div>
             </div>

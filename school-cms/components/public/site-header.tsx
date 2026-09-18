@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { NAV_LINKS, SITE_CONFIG, type NavigationLink } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { ArrowUpRight, ChevronDown, GraduationCap, Menu } from "lucide-react";
+import { ArrowUpRight, ChevronDown, GraduationCap, Mail, Menu, Phone } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
@@ -27,8 +27,28 @@ export function SiteHeader() {
     active && (isHome ? "bg-white/15 text-white" : "bg-secondary text-primary"),
   );
 
+  const teacherNavItems = [
+    { label: "All Teachers", href: "/teachers" },
+    { label: "Secondary", href: "/teachers?level=secondary" },
+    { label: "Higher Secondary (+2)", href: "/teachers?level=higher_secondary" },
+  ];
+
   return (
     <header className={cn("z-40 w-full border-b border-primary/10 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/75", isHome && "absolute inset-x-0 top-0 border-transparent bg-transparent text-white backdrop-blur-0 supports-[backdrop-filter]:bg-transparent")}>
+      <div className="bg-primary text-[10px] font-medium text-white sm:text-xs">
+        <div className="container flex h-8 items-center justify-between">
+          <div className="hidden items-center gap-4 text-white/75 sm:flex">
+            <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {SITE_CONFIG.email}</span>
+            <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {SITE_CONFIG.phone}</span>
+          </div>
+          <div className="flex items-center gap-5">
+            <span className="hidden sm:inline">Admissions open for 2026</span>
+            <Link href="/events" className="transition-colors hover:text-accent">Calendar</Link>
+            <Link href="/contact" className="transition-colors hover:text-accent">Parent portal</Link>
+            <Link href="/contact" className="flex items-center gap-1 bg-accent px-3 py-2 font-semibold text-accent-foreground transition-colors hover:bg-white">Learn more <ArrowUpRight className="h-3 w-3" /></Link>
+          </div>
+        </div>
+      </div>
       <div className={cn("hidden h-1 w-full sm:block", isHome ? "bg-gradient-to-r from-transparent via-white/30 to-transparent" : "bg-gradient-to-r from-primary/0 via-primary to-primary/0")} />
       <div className="container flex h-[4.5rem] items-center justify-between gap-3">
         <Link href="/" className="group relative flex shrink-0 items-center gap-3 font-serif text-xl font-semibold tracking-tight">

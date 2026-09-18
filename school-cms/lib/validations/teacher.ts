@@ -9,6 +9,7 @@ export const teacherSchema = z.object({
   designation: z.string().min(2, "Designation is required"),
   qualification: z.string().optional().or(z.literal("")),
   department: z.string().optional().or(z.literal("")),
+  level: z.enum(["secondary", "higher_secondary"]).default("secondary"),
   bio: z.string().optional().or(z.literal("")),
   image: z
     .string()
