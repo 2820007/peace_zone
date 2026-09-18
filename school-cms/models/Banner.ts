@@ -11,7 +11,7 @@ export interface IBanner extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
-
+// all banner 
 const BannerSchema = new Schema<IBanner>(
   {
     title: { type: String, required: true, trim: true },
