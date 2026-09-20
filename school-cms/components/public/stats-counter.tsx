@@ -107,7 +107,7 @@ export function StatsCounter() {
     <section
       ref={sectionRef}
       aria-label="School highlights"
-      className="mt-8 w-full bg-white py-5 sm:mt-10 sm:py-6"
+      className="mt-2 w-full bg-white py-6 sm:mt-3 sm:py-7"
     >
       <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">

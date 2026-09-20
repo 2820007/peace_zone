@@ -15,7 +15,7 @@ export default async function TestimonialsPage() {
     <section className="container py-16">
       <SectionHeading
         eyebrow="Testimonials"
-        title="What Our Community Says"
+        title={<>What Our <span className="text-accent">Community</span> Says</>}
         description="Real stories from the families and students who make up our school."
       />
 

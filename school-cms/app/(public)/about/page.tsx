@@ -15,7 +15,7 @@ export default function AboutPage() {
       {/* =========================================================
           HERO SECTION
       ========================================================= */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-visible">
         {/* Hero Image */}
         <div className="relative h-[420px] w-full sm:h-[500px]">
           <Image
@@ -26,15 +26,15 @@ export default function AboutPage() {
             className="object-cover"
           />
 
-          {/* Main Overlay - BLACK SHADOW */}
+          {/* Main Overlay */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/65 to-black/20" />
 
           {/* Floating Background Elements */}
-          <div className="absolute left-[8%] top-[18%] h-20 w-20 rounded-full bg-white/10 blur-sm animate-float-slow" />
+          <div className="absolute left-[8%] top-[18%] h-20 w-20 animate-float-slow rounded-full bg-white/10 blur-sm" />
 
-          <div className="absolute right-[12%] top-[20%] h-28 w-28 rounded-full bg-accent/20 blur-xl animate-float-medium" />
+          <div className="absolute right-[12%] top-[20%] h-28 w-28 animate-float-medium rounded-full bg-accent/20 blur-xl" />
 
-          <div className="absolute bottom-[15%] right-[25%] h-12 w-12 rounded-full bg-white/10 animate-float-fast" />
+          <div className="absolute bottom-[15%] right-[25%] h-12 w-12 animate-float-fast rounded-full bg-white/10" />
 
           {/* Hero Content */}
           <div className="container relative flex h-full items-center">
@@ -46,7 +46,7 @@ export default function AboutPage() {
               </div>
 
               {/* Heading */}
-              <h1 className="font-serif text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="font-serif text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl">
                 Building Bright Futures,
                 <span className="block text-accent">
                   One Student at a Time.
@@ -66,12 +66,12 @@ export default function AboutPage() {
         {/* =========================================================
             FLOATING ABOUT CARD
         ========================================================= */}
-        <div className="container relative z-10">
+        <div className="container relative z-20">
           <div className="relative -mt-20 overflow-hidden rounded-[2rem] border border-white/30 bg-background/95 p-7 shadow-2xl backdrop-blur-xl sm:-mt-24 sm:p-10">
             {/* Decorative Glow */}
-            <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/10 blur-3xl" />
+            <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-accent/10 blur-3xl" />
 
-            <div className="absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-20 -left-10 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
 
             <div className="relative grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               {/* Text */}
@@ -80,12 +80,15 @@ export default function AboutPage() {
                   About Us
                 </p>
 
-                <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight sm:text-4xl">
-                  Our Story, Mission &amp; Values
+                <h2 className="mt-3 font-serif text-3xl font-bold tracking-tight text-primary sm:text-4xl">
+                  Our Story,{" "}
+                  <span className="text-accent">
+                    Mission &amp; Values
+                  </span>
                 </h2>
 
                 <p className="mt-5 max-w-3xl leading-7 text-muted-foreground">
-                  {SITE_CONFIG.name} is affiliated with Nepal's National
+                  {SITE_CONFIG.name} is affiliated with Nepal&apos;s National
                   Examinations Board and offers +2 education in Science,
                   Management, and Law. The academy is committed to helping
                   students build strong academic foundations, practical skills,
@@ -119,9 +122,9 @@ export default function AboutPage() {
       {/* =========================================================
           MISSION / VISION / VALUES
       ========================================================= */}
-      <section className="relative overflow-hidden py-20 sm:py-24">
+      <section className="relative z-0 overflow-hidden pt-28 pb-20 sm:pt-32 sm:pb-24">
         {/* Background Decorations */}
-        <div className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />
+        <div className="pointer-events-none absolute -left-32 top-32 h-72 w-72 rounded-full bg-primary/5 blur-3xl" />
 
         <div className="pointer-events-none absolute -right-32 bottom-10 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
 
@@ -129,12 +132,17 @@ export default function AboutPage() {
           {/* Section Heading */}
           <SectionHeading
             eyebrow="What guides us"
-            title="Purpose behind every lesson"
+            title={
+              <>
+                Purpose behind{" "}
+                <span className="text-accent">every lesson</span>
+              </>
+            }
             description="Our school community is built around a shared commitment to meaningful learning, personal growth, and a brighter future."
           />
 
           {/* Cards */}
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
+          <div className="relative z-10 mt-14 grid gap-6 md:grid-cols-3">
             {/* =====================================================
                 MISSION CARD
             ===================================================== */}
@@ -144,7 +152,7 @@ export default function AboutPage() {
 
               <CardContent className="relative p-8">
                 {/* Icon */}
-                <div className="mb-7 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-2xl backdrop-blur-sm transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110">
+                <div className="mb-7 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10 text-2xl text-accent backdrop-blur-sm transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110">
                   ✦
                 </div>
 
@@ -154,8 +162,8 @@ export default function AboutPage() {
                 </p>
 
                 {/* Title */}
-                <h3 className="font-serif text-2xl font-bold">
-                  Our Mission
+                <h3 className="font-serif text-2xl font-bold text-white">
+                  Our <span className="text-accent">Mission</span>
                 </h3>
 
                 {/* Description */}
@@ -189,8 +197,8 @@ export default function AboutPage() {
                 </p>
 
                 {/* Title */}
-                <h3 className="font-serif text-2xl font-bold">
-                  Our Vision
+                <h3 className="font-serif text-2xl font-bold text-primary">
+                  Our <span className="text-accent">Vision</span>
                 </h3>
 
                 {/* Description */}
@@ -224,8 +232,8 @@ export default function AboutPage() {
                 </p>
 
                 {/* Title */}
-                <h3 className="font-serif text-2xl font-bold">
-                  Our Values
+                <h3 className="font-serif text-2xl font-bold text-primary">
+                  Our <span className="text-accent">Values</span>
                 </h3>
 
                 {/* Description */}
@@ -247,9 +255,9 @@ export default function AboutPage() {
       ========================================================= */}
       <section className="relative overflow-hidden bg-secondary/40 py-20 sm:py-28">
         {/* Floating Background Elements */}
-        <div className="absolute left-[5%] top-[15%] h-24 w-24 rounded-full bg-primary/10 blur-xl animate-float-medium" />
+        <div className="absolute left-[5%] top-[15%] h-24 w-24 animate-float-medium rounded-full bg-primary/10 blur-xl" />
 
-        <div className="absolute bottom-[10%] right-[8%] h-32 w-32 rounded-full bg-accent/10 blur-2xl animate-float-slow" />
+        <div className="absolute bottom-[10%] right-[8%] h-32 w-32 animate-float-slow rounded-full bg-accent/10 blur-2xl" />
 
         <div className="container relative grid items-center gap-14 lg:grid-cols-[0.85fr_1.15fr]">
           {/* =====================================================
@@ -257,7 +265,7 @@ export default function AboutPage() {
           ===================================================== */}
           <div className="relative mx-auto w-full max-w-md">
             {/* Floating Accent Shape */}
-            <div className="absolute -left-5 top-12 z-10 h-20 w-20 rounded-2xl bg-accent shadow-xl animate-float-fast" />
+            <div className="absolute -left-5 top-12 z-10 h-20 w-20 animate-float-fast rounded-2xl bg-accent shadow-xl" />
 
             {/* Image Frame */}
             <div className="relative aspect-[4/5] overflow-hidden rounded-[2.5rem] border-8 border-background bg-primary shadow-2xl">
@@ -284,7 +292,7 @@ export default function AboutPage() {
             </div>
 
             {/* Floating Badge */}
-            <div className="absolute -bottom-5 -right-5 rounded-2xl border border-border bg-background px-6 py-4 shadow-xl animate-float-slow">
+            <div className="absolute -bottom-5 -right-5 animate-float-slow rounded-2xl border border-border bg-background px-6 py-4 shadow-xl">
               <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Education
               </p>
@@ -302,7 +310,12 @@ export default function AboutPage() {
             <SectionHeading
               center={false}
               eyebrow="Leadership"
-              title="A message from our Principal"
+              title={
+                <>
+                  A message from our{" "}
+                  <span className="text-accent">Principal</span>
+                </>
+              }
             />
 
             {/* Quote */}

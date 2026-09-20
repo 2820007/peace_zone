@@ -10,9 +10,9 @@ const programs = {
   "primary-school": {
     title: "Primary School",
     eyebrow: "Grades 1–5",
-    hero: SCHOOL_IMAGES.classroom,
+    hero: "/images/primary2.jpg",
     alt: "Students learning together in a bright classroom",
-    supportImage: SCHOOL_IMAGES.gallery[1],
+    supportImage: "/images/primary.jpg",
     supportAlt: "Children collaborating during a creative classroom activity",
     description: "A joyful foundation where children build confidence, curiosity, and the habits that make lifelong learning possible.",
     intro: "Our primary years combine strong academic foundations with creativity, care, and plenty of room for children to discover what they can do.",
@@ -90,16 +90,16 @@ export default function ProgramPage({ params }: Props) {
         <div className="container grid gap-12 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
           <article>
             <p className="text-sm font-bold uppercase tracking-[0.2em] text-accent">{program.eyebrow}</p>
-            <h2 className="mt-3 font-serif text-3xl font-bold text-primary sm:text-4xl">Growing with purpose</h2>
+            <h2 className="mt-3 font-serif text-3xl font-bold text-primary sm:text-4xl">Growing with <span className="text-accent">purpose</span></h2>
             <div className="mt-4 h-1 w-16 bg-accent" />
             <p className="mt-7 max-w-3xl text-lg leading-8 text-muted-foreground">{program.intro}</p>
             <div className="mt-10 overflow-hidden rounded-[1.75rem] bg-primary p-6 text-white shadow-[0_18px_45px_rgba(15,45,80,0.16)] sm:p-8">
-              <div className="flex flex-col gap-2 border-b border-white/15 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">The learning journey</p><h3 className="mt-2 font-serif text-2xl font-bold sm:text-3xl">From first steps to lasting confidence</h3></div><span className="hidden text-4xl font-serif text-white/15 sm:block">{program.title}</span></div>
+              <div className="flex flex-col gap-2 border-b border-white/15 pb-5 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">The learning journey</p><h3 className="mt-2 font-serif text-2xl font-bold sm:text-3xl">From first steps to <span className="text-accent">lasting confidence</span></h3></div><span className="hidden text-4xl font-serif text-white/15 sm:block">{program.title}</span></div>
               <div className="mt-6 grid gap-6 md:grid-cols-3">{program.journey.map(([number, title, text]) => <div key={number} className="relative border-l border-accent/60 pl-4"><span className="text-xs font-bold tracking-[0.2em] text-accent">{number}</span><h4 className="mt-2 font-serif text-xl font-bold text-white">{title}</h4><p className="mt-2 text-sm leading-6 text-white/70">{text}</p></div>)}</div>
             </div>
             <div className="mt-10 grid gap-5 sm:grid-cols-3">{program.highlights.map((highlight) => <div key={highlight} className="border-t-2 border-primary/10 pt-4"><CheckCircle2 className="h-5 w-5 text-accent" /><p className="mt-3 text-sm font-semibold leading-6 text-primary">{highlight}</p></div>)}</div>
             <div className="mt-14 grid overflow-hidden border border-primary/10 bg-secondary/40 md:grid-cols-[0.9fr_1.1fr] md:items-stretch"><div className="relative min-h-[260px]"><Image src={program.supportImage} alt={program.supportAlt} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover transition-transform duration-700 hover:scale-105" /></div><div className="p-7 sm:p-9"><p className="text-sm font-bold uppercase tracking-[0.18em] text-accent">The Peace Zone approach</p><h3 className="mt-3 font-serif text-2xl font-bold text-primary sm:text-3xl">{program.focusTitle}</h3><p className="mt-4 leading-7 text-muted-foreground">{program.focusText}</p><Link href="/about" className="group mt-6 inline-flex items-center gap-2 text-sm font-bold text-primary transition-colors hover:text-accent">Discover our approach <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" /></Link></div></div>
-            <div className="mt-12 overflow-hidden border border-primary/10 bg-secondary/50 p-6 sm:p-8"><div className="flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-white"><Icon className="h-6 w-6" /></span><div><h3 className="font-serif text-2xl font-bold text-primary">A place to learn, belong, and lead</h3><p className="mt-3 leading-7 text-muted-foreground">At {SITE_CONFIG.name}, learning is supported by caring teachers, a welcoming community, and experiences that connect knowledge with everyday life.</p></div></div></div>
+            <div className="mt-12 overflow-hidden border border-primary/10 bg-secondary/50 p-6 sm:p-8"><div className="flex items-start gap-4"><span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-white"><Icon className="h-6 w-6" /></span><div><h3 className="font-serif text-2xl font-bold text-primary">A place to <span className="text-accent">learn, belong, and lead</span></h3><p className="mt-3 leading-7 text-muted-foreground">At {SITE_CONFIG.name}, learning is supported by caring teachers, a welcoming community, and experiences that connect knowledge with everyday life.</p></div></div></div>
           </article>
 
           <aside className="overflow-hidden border border-primary/10 bg-white shadow-xl shadow-primary/10 lg:sticky lg:top-24">

@@ -16,9 +16,12 @@ function serialize<T>(doc: T): T {
 
 // ---------- PUBLIC (published === true only, enforced server-side) ----------
 
-export async function getPublishedTeachers() {
+export async function getPublishedTeachers(level?: "secondary" | "higher_secondary") {
   await connectToDatabase();
-  const teachers = await Teacher.find({ published: true })
+  const teachers = await Teacher.find({
+    published: true,
+    ...(level ? { level } : {}),
+  })
     .sort({ displayOrder: 1, name: 1 })
     .lean();
   return serialize(teachers);

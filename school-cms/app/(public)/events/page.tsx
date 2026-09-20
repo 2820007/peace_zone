@@ -26,7 +26,7 @@ export default async function EventsPage() {
         <div className="absolute inset-0 flex items-center bg-primary/70">
           <div className="container">
             <h1 className="font-serif text-3xl font-semibold text-white sm:text-4xl">
-              Events &amp; News
+              Events &amp; <span className="text-accent">News</span>
             </h1>
           </div>
         </div>

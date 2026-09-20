@@ -40,14 +40,14 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="name">Full Name</Label>
-          <Input id="name" name="name" placeholder="Jane Doe" required />
+          <Input id="name" name="name" placeholder="Jane Doe" required className="rounded-xl" />
           {state.fieldErrors?.name && (
             <p className="text-sm text-destructive">{state.fieldErrors.name}</p>
           )}
         </div>
         <div className="space-y-2">
           <Label htmlFor="email">Email Address</Label>
-          <Input id="email" name="email" type="email" placeholder="jane@example.com" required />
+          <Input id="email" name="email" type="email" placeholder="jane@example.com" required className="rounded-xl" />
           {state.fieldErrors?.email && (
             <p className="text-sm text-destructive">{state.fieldErrors.email}</p>
           )}
@@ -57,17 +57,17 @@ export function ContactForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor="phone">Phone (optional)</Label>
-          <Input id="phone" name="phone" placeholder="+1 (555) 000-0000" />
+          <Input id="phone" name="phone" placeholder="+1 (555) 000-0000" className="rounded-xl" />
         </div>
         <div className="space-y-2">
           <Label htmlFor="subject">Subject (optional)</Label>
-          <Input id="subject" name="subject" placeholder="Admissions inquiry" />
+          <Input id="subject" name="subject" placeholder="Admissions inquiry" className="rounded-xl" />
         </div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="message">Message</Label>
-        <Textarea id="message" name="message" rows={5} placeholder="How can we help?" required />
+        <Textarea id="message" name="message" rows={5} placeholder="How can we help?" required className="rounded-xl" />
         {state.fieldErrors?.message && (
           <p className="text-sm text-destructive">{state.fieldErrors.message}</p>
         )}

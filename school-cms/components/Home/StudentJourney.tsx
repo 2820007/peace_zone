@@ -24,7 +24,7 @@ const journey = [
 
 export default function StudentJourney() {
   return (
-    <section className="relative overflow-hidden bg-primary py-12 text-primary-foreground sm:py-14 lg:py-18">
+    <section className="relative overflow-hidden bg-primary py-10 text-primary-foreground sm:py-12 lg:py-14">
       {/* Background Decorations */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
@@ -127,7 +127,7 @@ export default function StudentJourney() {
           >
             Growing with purpose
             <br />
-            <em className="font-serif font-normal text-accent">
+            <em className="font-bold text-accent">
               at every step.
             </em>
           </motion.h2>
@@ -194,7 +194,7 @@ export default function StudentJourney() {
               <div className="absolute -inset-1 rounded-[1.5rem] bg-accent/10 opacity-0 blur-xl transition-all duration-500 group-hover:opacity-100" />
 
               {/* Card */}
-              <div className="relative min-h-[245px] overflow-hidden rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-[0_10px_35px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-500 group-hover:border-accent/50 group-hover:bg-white/[0.1] group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
+              <div className="relative min-h-[245px] overflow-hidden rounded-2xl border border-white/10 bg-orange-400 p-5 shadow-[0_10px_35px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-500 group-hover:border-accent/50 group-hover:bg-white/[0.1] group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.15)]">
 
                 {/* Decorative Circle */}
                 <motion.div
@@ -217,7 +217,7 @@ export default function StudentJourney() {
                     whileHover={{
                       scale: 1.05,
                     }}
-                    className="font-serif text-3xl font-semibold text-accent/90 transition-colors duration-300 group-hover:text-accent"
+                    className="font-serif text-3xl font-semibold text-white/90 transition-colors duration-300 group-hover:text-accent"
                   >
                     {String(index + 1).padStart(2, "0")}
                   </motion.span>

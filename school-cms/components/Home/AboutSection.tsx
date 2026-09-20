@@ -31,7 +31,7 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-5">
+    <section className="relative overflow-hidden bg-white py-10 sm:py-12 lg:py-16">
       <div className="container">
         <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
 

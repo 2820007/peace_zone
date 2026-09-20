@@ -7,15 +7,26 @@ import { NAV_LINKS, SITE_CONFIG, type NavigationLink } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, ChevronDown, GraduationCap, Mail, Menu, Phone } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRef, useState } from "react";
 
-function isActive(link: NavigationLink, pathname: string) {
-  return link.href === pathname || Boolean(link.children?.some((child) => child.href === pathname));
+function isChildActive(href: string, pathname: string, searchParams: URLSearchParams) {
+  const [childPath, query = ""] = href.split("?");
+  if (childPath !== pathname) return false;
+
+  if (childPath !== "/teachers") return true;
+  return new URLSearchParams(query).get("level") === searchParams.get("level");
+}
+
+function isActive(link: NavigationLink, pathname: string, searchParams: URLSearchParams) {
+  return link.href.split("?")[0] === pathname || Boolean(
+    link.children?.some((child) => isChildActive(child.href, pathname, searchParams))
+  );
 }
 
 export function SiteHeader() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [desktopOpen, setDesktopOpen] = useState<string | null>(null);
@@ -27,28 +38,9 @@ export function SiteHeader() {
     active && (isHome ? "bg-white/15 text-white" : "bg-secondary text-primary"),
   );
 
-  const teacherNavItems = [
-    { label: "All Teachers", href: "/teachers" },
-    { label: "Secondary", href: "/teachers?level=secondary" },
-    { label: "Higher Secondary (+2)", href: "/teachers?level=higher_secondary" },
-  ];
-
   return (
     <header className={cn("z-40 w-full border-b border-primary/10 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/75", isHome && "absolute inset-x-0 top-0 border-transparent bg-transparent text-white backdrop-blur-0 supports-[backdrop-filter]:bg-transparent")}>
-      <div className="bg-primary text-[10px] font-medium text-white sm:text-xs">
-        <div className="container flex h-8 items-center justify-between">
-          <div className="hidden items-center gap-4 text-white/75 sm:flex">
-            <span className="flex items-center gap-1"><Mail className="h-3 w-3" /> {SITE_CONFIG.email}</span>
-            <span className="flex items-center gap-1"><Phone className="h-3 w-3" /> {SITE_CONFIG.phone}</span>
-          </div>
-          <div className="flex items-center gap-5">
-            <span className="hidden sm:inline">Admissions open for 2026</span>
-            <Link href="/events" className="transition-colors hover:text-accent">Calendar</Link>
-            <Link href="/contact" className="transition-colors hover:text-accent">Parent portal</Link>
-            <Link href="/contact" className="flex items-center gap-1 bg-accent px-3 py-2 font-semibold text-accent-foreground transition-colors hover:bg-white">Learn more <ArrowUpRight className="h-3 w-3" /></Link>
-          </div>
-        </div>
-      </div>
+     
       <div className={cn("hidden h-1 w-full sm:block", isHome ? "bg-gradient-to-r from-transparent via-white/30 to-transparent" : "bg-gradient-to-r from-primary/0 via-primary to-primary/0")} />
       <div className="container flex h-[4.5rem] items-center justify-between gap-3">
         <Link href="/" className="group relative flex shrink-0 items-center gap-3 font-serif text-xl font-semibold tracking-tight">
@@ -61,7 +53,7 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main navigation">
           {NAV_LINKS.map((link) => {
-            const active = isActive(link, pathname);
+            const active = isActive(link, pathname, searchParams);
             const underline = <span className={cn("absolute bottom-1 left-1/2 h-[2px] -translate-x-1/2 rounded-full transition-all duration-300", isHome ? "bg-white" : "bg-primary", active ? "w-4/5" : "w-0 group-hover:w-2/5")} />;
             if (!link.children) return <Link key={link.href} href={link.href} className={navClass(active)}><span className="relative">{link.label}</span>{underline}</Link>;
             const openDesktopMenu = () => {
@@ -77,7 +69,7 @@ export function SiteHeader() {
               </DropdownMenuTrigger>
               <DropdownMenuContent onMouseEnter={openDesktopMenu} onMouseLeave={closeDesktopMenu} align="start" className="min-w-56 rounded-xl border-primary/10 bg-background/95 p-1.5 shadow-xl backdrop-blur-xl">
                 {link.children.map((child) => <DropdownMenuItem key={child.href + child.label} asChild>
-                  <Link href={child.href} className={cn("flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium", pathname === child.href && "bg-secondary text-primary")}>{child.label}<ArrowUpRight className="h-3.5 w-3.5 opacity-50" /></Link>
+                  <Link href={child.href} className={cn("flex cursor-pointer items-center justify-between rounded-lg px-3 py-2.5 text-sm font-medium", isChildActive(child.href, pathname, searchParams) && "bg-secondary text-primary")}>{child.label}<ArrowUpRight className="h-3.5 w-3.5 opacity-50" /></Link>
                 </DropdownMenuItem>)}
               </DropdownMenuContent>
             </DropdownMenu>;
@@ -92,10 +84,10 @@ export function SiteHeader() {
             <div className="flex items-center gap-3"><span className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-primary shadow-sm"><GraduationCap className="h-6 w-6" /></span><SheetTitle className="font-serif text-xl">{SITE_CONFIG.shortName}</SheetTitle></div>
             <nav className="mt-8 flex flex-col gap-2" aria-label="Mobile navigation">
               {NAV_LINKS.map((link) => {
-                const active = isActive(link, pathname); const isExpanded = expanded === link.label;
+                const active = isActive(link, pathname, searchParams); const isExpanded = expanded === link.label;
                 if (!link.children) return <Link key={link.href} href={link.href} onClick={() => setOpen(false)} className={cn("group flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-300", active ? "bg-secondary text-primary shadow-sm" : "text-muted-foreground hover:translate-x-1 hover:bg-secondary hover:text-primary")}><span>{link.label}</span><ArrowUpRight className="h-4 w-4 opacity-0 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" /></Link>;
                 return <div key={link.label} className="rounded-xl"><button type="button" onClick={() => setExpanded(isExpanded ? null : link.label)} className={cn("flex w-full items-center justify-between rounded-xl px-4 py-3.5 text-left text-sm font-medium transition-all duration-300", active || isExpanded ? "bg-secondary text-primary shadow-sm" : "text-muted-foreground hover:bg-secondary hover:text-primary")} aria-expanded={isExpanded}>{link.label}<ChevronDown className={cn("h-4 w-4 transition-transform duration-300", isExpanded && "rotate-180")} /></button>
-                  {isExpanded && <div className="mt-1 space-y-1 border-l border-primary/15 py-1 pl-3">{link.children.map((child) => <Link key={child.href + child.label} href={child.href} onClick={() => setOpen(false)} className={cn("flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-secondary hover:text-primary", pathname === child.href ? "bg-secondary text-primary" : "text-muted-foreground")}>{child.label}<ArrowUpRight className="h-3.5 w-3.5" /></Link>)}</div>}
+                  {isExpanded && <div className="mt-1 space-y-1 border-l border-primary/15 py-1 pl-3">{link.children.map((child) => <Link key={child.href + child.label} href={child.href} onClick={() => setOpen(false)} className={cn("flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition-colors hover:bg-secondary hover:text-primary", isChildActive(child.href, pathname, searchParams) ? "bg-secondary text-primary" : "text-muted-foreground")}>{child.label}<ArrowUpRight className="h-3.5 w-3.5" /></Link>)}</div>}
                 </div>;
               })}
             </nav>

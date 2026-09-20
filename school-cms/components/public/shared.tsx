@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { SCHOOL_IMAGES } from "@/config/site";
 import { motion } from "framer-motion";
@@ -22,7 +22,7 @@ export function SectionHeading({
   center = true,
 }: {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   description?: string;
   center?: boolean;
 }) {

@@ -7,7 +7,6 @@
 export const SITE_CONFIG = {
   name: "Peace Zone Academy",
   shortName: "Peace Zone",
-  foundedYear: 2014,
   tagline: "Affiliated to NEB Nepal. Building futures through education.",
   description:
     "Peace Zone Academy is an NEB-affiliated college in Vishwa-15, Birgunj, offering Science, Management, and Law streams at the +2 level.",
@@ -73,17 +72,27 @@ export const NAV_LINKS: NavigationLink[] = [
     href: "/teachers",
     label: "Teacher",
     children: [
-      { href: "/teachers", label: "School" },
-      { href: "/teachers", label: "+2 Management" },
+      { href: "/teachers", label: "All Teachers" },
+      { href: "/teachers?level=secondary", label: "Secondary" },
+      { href: "/teachers?level=higher_secondary", label: "Higher Secondary (+2)" },
     ],
   },
-  {
-    href: "/events",
-    label: "Events",
-    children: [{ href: "/notices", label: "Notices" }],
-  },
+ {
+  href: "/events",
+  label: "Events",
+  children: [
+    {
+      href: "/notices",
+      label: "Notices",
+    },
+    {
+      href: "/events",
+      label: "Calendar",
+    },
+  ],
+},
   { href: "/contact", label: "Contact" },
-  { href: "/admission", label: "Admission" },
+  
 ];
 
 export const ADMIN_NAV_LINKS = [

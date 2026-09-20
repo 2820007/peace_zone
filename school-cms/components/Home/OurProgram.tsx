@@ -98,7 +98,7 @@ export default function OurPrograme() {
   return (
     <section
       id="programs"
-      className="relative overflow-hidden bg-[#f7f9fc] py-10 sm:py-18 lg:py-2"
+      className="relative overflow-hidden bg-[#f7f9fc] py-10 sm:py-12 lg:py-14"
     >
       {/* ================= BACKGROUND DECORATIONS ================= */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -340,7 +340,7 @@ export default function OurPrograme() {
             duration: 0.8,
             delay: 0.2,
           }}
-          className="mt-1 flex justify-center"
+          className="mt-10 flex justify-center"
         >
           <motion.button
             whileHover={{
@@ -350,7 +350,7 @@ export default function OurPrograme() {
             whileTap={{
               scale: 0.97,
             }}
-            className="group inline-flex items-center gap-3 rounded-full bg-slate-900 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-slate-900/10 transition-all hover:bg-blue-600"
+            className="group inline-flex items-center gap-3 rounded-full bg-purple-600 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-slate-900/10 transition-all hover:bg-blue-600"
           >
             Discover all programs
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:rotate-45">

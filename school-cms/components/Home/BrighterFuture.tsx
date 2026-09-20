@@ -10,7 +10,7 @@ import brighterFutureImage from "@/components/public/group photos-Picsart-AiImag
 
 export default function BrighterFuture() {
   return (
-    <section className="relative isolate mt-8 overflow-hidden py-10 sm:mt-10 sm:py-16 lg:mt-12 lg:py-20">
+    <section className="relative isolate mt-2 overflow-hidden py-8 sm:mt-3 sm:py-10 lg:mt-4 lg:py-12">
       {/* Background Image */}
       <div className="absolute inset-0 -z-30">
         <Image

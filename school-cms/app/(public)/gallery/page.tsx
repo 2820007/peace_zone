@@ -19,7 +19,7 @@ export default async function GalleryPage() {
 
   return (
     <section className="container py-16">
-      <SectionHeading eyebrow="Gallery" title="Life at Our School" description="A visual look at academics, events, and everyday moments on campus." />
+      <SectionHeading eyebrow="Gallery" title={<>Life at <span className="text-accent">Our School</span></>} description="A visual look at academics, events, and everyday moments on campus." />
 
       {imageItems.length === 0 ? (
         <p className="mt-12 text-center text-muted-foreground">Gallery photos coming soon.</p>

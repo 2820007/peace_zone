@@ -19,45 +19,23 @@ export default async function TeachersPage({
 }: {
   searchParams?: { level?: string };
 }) {
-  const teachers = await getPublishedTeachers();
   const selectedLevel = searchParams?.level;
-  const validLevel = selectedLevel === "secondary" || selectedLevel === "higher_secondary" ? selectedLevel : null;
-
-  const visibleTeachers = validLevel
-    ? teachers.filter((teacher: any) => teacher.level === validLevel)
-    : teachers;
-
-  const groupedTeachers = {
-    secondary: teachers.filter((teacher: any) => teacher.level === "secondary"),
-    higher_secondary: teachers.filter((teacher: any) => teacher.level === "higher_secondary"),
-  };
-
-  const renderTeacherGroup = (level: "secondary" | "higher_secondary") => {
-    const list = groupedTeachers[level];
-    if (list.length === 0) return null;
-
-    return (
-      <div key={level} className="space-y-6">
-        <div className="mt-12 flex items-center justify-between gap-3">
-          <h3 className="font-serif text-2xl font-semibold">{levelTitles[level]}</h3>
-          <span className="rounded-full bg-secondary px-3 py-1 text-xs font-medium text-primary">
-            {list.length} teachers
-          </span>
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {list.map((teacher: any) => (
-            <TeacherCard key={teacher._id} teacher={teacher} />
-          ))}
-        </div>
-      </div>
-    );
-  };
+  const validLevel = selectedLevel === "secondary" || selectedLevel === "higher_secondary"
+    ? selectedLevel
+    : null;
+  const teachers = await getPublishedTeachers(validLevel ?? undefined);
 
   return (
     <section className="container py-16">
       <SectionHeading
         eyebrow="Our Faculty"
-        title={validLevel ? `${levelTitles[validLevel]} Faculty` : "Meet Our Teachers"}
+        title={
+          validLevel ? (
+            <>{levelTitles[validLevel]} <span className="text-accent">Faculty</span></>
+          ) : (
+            <>Meet Our <span className="text-accent">Teachers</span></>
+          )
+        }
         description="Dedicated educators committed to helping every student succeed."
       />
 
@@ -86,22 +64,11 @@ export default async function TeachersPage({
         <p className="mt-12 text-center text-muted-foreground">
           Teacher profiles will be published here soon.
         </p>
-      ) : validLevel ? (
-        visibleTeachers.length === 0 ? (
-          <p className="mt-12 text-center text-muted-foreground">
-            No teachers are currently available for this level.
-          </p>
-        ) : (
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {visibleTeachers.map((teacher: any) => (
-              <TeacherCard key={teacher._id} teacher={teacher} />
-            ))}
-          </div>
-        )
       ) : (
-        <div className="mt-12 space-y-10">
-          {renderTeacherGroup("secondary")}
-          {renderTeacherGroup("higher_secondary")}
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {teachers.map((teacher: any) => (
+            <TeacherCard key={teacher._id} teacher={teacher} />
+          ))}
         </div>
       )}
     </section>

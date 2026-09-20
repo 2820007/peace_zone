@@ -44,7 +44,7 @@ const activities = [
 
 export default function BeyoundAcademies() {
   return (
-    <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+    <section className="relative overflow-hidden bg-white py-10 sm:py-12 lg:py-16">
       {/* =========================
           BACKGROUND DECORATION
       ========================== */}

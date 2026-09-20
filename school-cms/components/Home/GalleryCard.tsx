@@ -72,7 +72,7 @@ export default function GalleryCard({ gallery }: GalleryCardProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative mt-8 overflow-hidden bg-white py-20 sm:mt-10 sm:py-24 lg:mt-12 lg:py-28"
+      className="relative mt-2 overflow-hidden bg-white py-10 sm:mt-3 sm:py-12 lg:mt-4 lg:py-16"
     >
       {/* =====================================================
           BACKGROUND DECORATION
@@ -347,7 +347,7 @@ export default function GalleryCard({ gallery }: GalleryCardProps) {
               </div>
 
               <h3 className="mt-5 font-[Arial,Helvetica,sans-serif] text-2xl font-bold text-primary">
-                School Videos
+                School <span className="text-accent">Videos</span>
               </h3>
 
               <p className="mt-3 text-base leading-7 text-muted-foreground">
