@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { ArrowUpRight, ChevronDown, GraduationCap, Mail, Menu, Phone } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 
 function isChildActive(href: string, pathname: string, searchParams: URLSearchParams) {
   const [childPath, query = ""] = href.split("?");
@@ -24,7 +24,7 @@ function isActive(link: NavigationLink, pathname: string, searchParams: URLSearc
   );
 }
 
-export function SiteHeader() {
+function SiteHeaderContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [open, setOpen] = useState(false);
@@ -95,5 +95,13 @@ export function SiteHeader() {
         </Sheet>
       </div>
     </header>
+  );
+}
+
+export function SiteHeader() {
+  return (
+    <Suspense fallback={null}>
+      <SiteHeaderContent />
+    </Suspense>
   );
 }
