@@ -107,3 +107,25 @@ dependencies are installed:
    `/teachers` and `/testimonials` pages.
 4. Submit the public contact form and confirm it shows up under
    `/admin/messages`.
+
+## Production deployment
+
+Set the following values in your hosting provider (do not commit them):
+
+```bash
+MONGODB_URI="mongodb+srv://..."
+SESSION_SECRET="a-long-random-secret-at-least-32-characters"
+NEXT_PUBLIC_SITE_URL="https://www.your-school-domain.example"
+CLOUDINARY_CLOUD_NAME="..."
+CLOUDINARY_API_KEY="..."
+CLOUDINARY_API_SECRET="..."
+RESEND_API_KEY="re_..."
+CONTACT_EMAIL_TO="office@your-school-domain.example"
+CONTACT_EMAIL_FROM="Peace Zone Academy <notifications@your-school-domain.example>"
+```
+
+Before going live, change the seeded admin password, verify the Resend sender
+domain, and configure MongoDB Atlas network access for the deployment host.
+The app renders CMS-backed public pages dynamically, so the deployment build
+does not need access to MongoDB. For faster production image optimization,
+install the optional `sharp` package in the project before deploying.

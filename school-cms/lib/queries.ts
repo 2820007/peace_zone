@@ -96,6 +96,14 @@ export async function getPublishedBanners() {
   return serialize(banners);
 }
 
+export async function getPublishedHomeBanners() {
+  await connectToDatabase();
+  const banners = await HomeBanner.find({ published: true })
+    .sort({ displayOrder: 1, createdAt: -1 })
+    .lean();
+  return serialize(banners);
+}
+
 // ---------- ADMIN (all records, auth enforced by middleware + layout) ----------
 
 export async function getAllTeachers() {

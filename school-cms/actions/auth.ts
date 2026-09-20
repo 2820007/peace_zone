@@ -7,6 +7,7 @@ import { verifyPassword } from "@/lib/auth/password";
 import { hashPassword } from "@/lib/auth/password";
 import { createSessionToken, setSessionCookie, clearSessionCookie, getSession } from "@/lib/auth/session";
 import { loginSchema } from "@/lib/validations/auth";
+import { actionError } from "@/lib/errors";
 
 export interface LoginActionState {
   error?: string;
@@ -31,29 +32,35 @@ export async function loginAction(
     return { fieldErrors };
   }
 
-  await connectToDatabase();
-
-  const admin = await Admin.findOne({ email: parsed.data.email.toLowerCase() }).select(
-    "+passwordHash"
-  );
+  let admin;
+  try {
+    await connectToDatabase();
+    admin = await Admin.findOne({ email: parsed.data.email.toLowerCase() }).select("+passwordHash");
+  } catch (error) {
+    return actionError("loginAction", error, "Sign-in is temporarily unavailable. Please try again shortly.");
+  }
 
   // Generic error message on purpose — never reveal whether the email exists.
   if (!admin) {
     return { error: "Invalid email or password." };
   }
 
-  const passwordMatches = await verifyPassword(parsed.data.password, admin.passwordHash);
+  let passwordMatches: boolean;
+  try {
+    passwordMatches = await verifyPassword(parsed.data.password, admin.passwordHash);
+  } catch (error) {
+    return actionError("loginAction password verification", error, "Sign-in is temporarily unavailable. Please try again shortly.");
+  }
   if (!passwordMatches) {
     return { error: "Invalid email or password." };
   }
 
-  const token = await createSessionToken({
-    adminId: admin._id.toString(),
-    email: admin.email,
-    name: admin.name,
-  });
-
-  await setSessionCookie(token);
+  try {
+    const token = await createSessionToken({ adminId: admin._id.toString(), email: admin.email, name: admin.name });
+    await setSessionCookie(token);
+  } catch (error) {
+    return actionError("loginAction session creation", error, "Sign-in is temporarily unavailable. Please try again shortly.");
+  }
   redirect("/admin/dashboard");
 }
 
@@ -88,18 +95,31 @@ export async function changePasswordAction(
   if (newPassword !== confirmPassword) fieldErrors.confirmPassword = "Passwords do not match.";
   if (Object.keys(fieldErrors).length > 0) return { fieldErrors };
 
-  await connectToDatabase();
-  const admin = await Admin.findById(session.adminId).select("+passwordHash");
+  let admin;
+  try {
+    await connectToDatabase();
+    admin = await Admin.findById(session.adminId).select("+passwordHash");
+  } catch (error) {
+    return actionError("changePasswordAction lookup", error);
+  }
   if (!admin) return { error: "Account not found." };
 
-  const matches = await verifyPassword(currentPassword, admin.passwordHash);
+  let matches: boolean;
+  try {
+    matches = await verifyPassword(currentPassword, admin.passwordHash);
+  } catch (error) {
+    return actionError("changePasswordAction verification", error);
+  }
   if (!matches) {
     return { fieldErrors: { currentPassword: "Current password is incorrect." } };
   }
 
-  admin.passwordHash = await hashPassword(newPassword);
-  await admin.save();
+  try {
+    admin.passwordHash = await hashPassword(newPassword);
+    await admin.save();
+  } catch (error) {
+    return actionError("changePasswordAction save", error);
+  }
 
   return { success: true };
 }
-

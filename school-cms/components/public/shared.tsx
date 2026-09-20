@@ -375,8 +375,11 @@ export function TestimonialSlider({
   const slideNext = () => {
     if (!sliderRef.current) return;
 
+    const firstSlide = sliderRef.current.firstElementChild as HTMLElement | null;
+    const gap = 24;
+
     sliderRef.current.scrollBy({
-      left: sliderRef.current.clientWidth,
+      left: (firstSlide?.clientWidth || sliderRef.current.clientWidth) + gap,
       behavior: "smooth",
     });
   };
@@ -396,7 +399,7 @@ export function TestimonialSlider({
               testimonial.slug ||
               index
             }
-            className="w-full shrink-0 snap-start md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+          className="w-full shrink-0 snap-start md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
           >
             <TestimonialCard testimonial={testimonial} />
           </div>
@@ -467,4 +470,3 @@ export function ContactStrip() {
     </motion.div>
   );
 }
-

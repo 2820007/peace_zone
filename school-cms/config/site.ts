@@ -78,8 +78,8 @@ export const NAV_LINKS: NavigationLink[] = [
     ],
   },
  {
-  href: "/events",
-  label: "Events",
+  href: "/updates",
+  label: "Updates",
   children: [
     {
       href: "/notices",
@@ -87,7 +87,7 @@ export const NAV_LINKS: NavigationLink[] = [
     },
     {
       href: "/events",
-      label: "Calendar",
+      label: "Events",
     },
   ],
 },

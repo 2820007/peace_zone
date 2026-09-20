@@ -13,7 +13,8 @@ import {
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { SITE_CONFIG } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { ChevronLeft, ChevronRight, GraduationCap, LogOut, Menu, User } from "lucide-react";
+import { ChevronLeft, ChevronRight, LogOut, Menu, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -48,8 +49,8 @@ export function AdminShell({
       >
         <div className="flex h-20 items-center justify-between border-b border-white/10 px-4">
           <Link href="/admin/dashboard" className="flex items-center gap-3 overflow-hidden font-serif font-semibold text-white">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary text-white shadow-sm">
-              <GraduationCap className="h-5 w-5" />
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm">
+              <Image src="/images/peacezonologo-removebg-preview.png" alt="Peace Zone Academy logo" width={48} height={58} className="h-10 w-10 object-contain" />
             </span>
             {!collapsed && <span className="truncate">{SITE_CONFIG.shortName}<span className="block font-sans text-[10px] font-medium uppercase tracking-[0.16em] text-slate-400">Admin workspace</span></span>}
           </Link>
@@ -94,7 +95,7 @@ export function AdminShell({
               <SheetContent side="left" className="w-64 border-slate-800 bg-slate-950 p-0 text-white">
                 <SheetTitle className="sr-only">Navigation</SheetTitle>
                 <div className="flex h-16 items-center gap-2 border-b border-white/10 px-4 font-serif font-semibold">
-                  <GraduationCap className="h-6 w-6 text-primary" /> {SITE_CONFIG.shortName} CMS
+                  <Image src="/images/peacezonologo-removebg-preview.png" alt="Peace Zone Academy logo" width={48} height={58} className="h-8 w-8 object-contain" /> {SITE_CONFIG.shortName} CMS
                 </div>
                 <div className="py-2">
                   <SidebarNav onNavigate={() => setMobileOpen(false)} />

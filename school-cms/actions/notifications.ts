@@ -4,6 +4,7 @@ import { getSession } from "@/lib/auth/session";
 import { connectToDatabase } from "@/lib/db/connect";
 import { normalizeRecipientList, resolveResendSender, sendStaffNotification } from "@/lib/email";
 import Teacher from "@/models/Teacher";
+import { actionError } from "@/lib/errors";
 
 export interface NotificationActionState {
   success?: boolean;
@@ -50,7 +51,6 @@ export async function sendStaffNotificationAction(
     await sendStaffNotification({ subject, message, recipients });
     return { success: true, recipientCount: recipients.length, mode: "broadcast" };
   } catch (error) {
-    console.error("sendStaffNotificationAction failed:", error);
-    return { error: error instanceof Error ? error.message : "Unable to send notification." };
+    return actionError("sendStaffNotificationAction", error, "Unable to send the notification. Please try again shortly.");
   }
 }

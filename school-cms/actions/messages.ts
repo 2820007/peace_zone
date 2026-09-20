@@ -7,6 +7,7 @@ import { sendContactNotification } from "@/lib/email";
 import { contactMessageSchema } from "@/lib/validations/content";
 import ContactMessage from "@/models/ContactMessage";
 import { revalidatePath } from "next/cache";
+import { actionError, logServerError } from "@/lib/errors";
 
 async function requireAdmin() {
   const session = await getSession();
@@ -33,18 +34,17 @@ export async function submitContactMessageAction(
     return { fieldErrors };
   }
 
-  await connectToDatabase();
   try {
+    await connectToDatabase();
     await ContactMessage.create(parsed.data);
   } catch (err) {
-    console.error("submitContactMessageAction failed:", err);
-    return { error: "We couldn't send your message. Please try again shortly." };
+    return actionError("submitContactMessageAction", err, "We couldn't send your message. Please try again shortly.");
   }
 
   try {
     await sendContactNotification(parsed.data);
   } catch (err) {
-    console.error("Contact email notification failed:", err);
+    logServerError("contact email notification failed", err);
     return {
       error: "Your message was saved, but we couldn't notify the office by email. Please try again later.",
     };

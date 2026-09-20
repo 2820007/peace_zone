@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { logServerError } from "@/lib/errors";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -37,6 +38,11 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
   if (!cached.promise) {
     cached.promise = mongoose.connect(MONGODB_URI as string, {
       bufferCommands: false,
+      // Fail predictably instead of leaving requests or deployments waiting on
+      // an unreachable database server.
+      serverSelectionTimeoutMS: 10_000,
+      connectTimeoutMS: 10_000,
+      maxPoolSize: 10,
     });
   }
 
@@ -44,6 +50,7 @@ export async function connectToDatabase(): Promise<typeof mongoose> {
     cached.conn = await cached.promise;
   } catch (err) {
     cached.promise = null;
+    logServerError("database connection failed", err);
     throw err;
   }
 
