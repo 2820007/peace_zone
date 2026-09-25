@@ -323,41 +323,7 @@ export default function OurPrograme() {
 
         {/* ================= BOTTOM CTA ================= */}
 
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 50,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.8,
-            delay: 0.2,
-          }}
-          className="mt-10 flex justify-center"
-        >
-          <motion.button
-            whileHover={{
-              scale: 1.04,
-              y: -2,
-            }}
-            whileTap={{
-              scale: 0.97,
-            }}
-            className="group inline-flex items-center gap-3 rounded-full bg-purple-600 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-slate-900/10 transition-all hover:bg-blue-600"
-          >
-            Discover all programs
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/10 transition-transform duration-300 group-hover:rotate-45">
-              <ArrowUpRight size={16} />
-            </span>
-          </motion.button>
-        </motion.div>
+     
       </div>
     </section>
   );

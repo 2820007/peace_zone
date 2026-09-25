@@ -167,12 +167,12 @@ export default async function HomePage() {
       ========================================================= */}
 
       {testimonials.length > 0 && (
-        <section className="relative mt-2 overflow-hidden bg-white py-10 sm:mt-3 sm:py-12 lg:mt-4 lg:py-16">
+        <section className="relative mt-2 overflow-hidden bg-white py-10 sm:mt-3 sm:py-12 lg:mt-2 lg:py-16">
           <div className="pointer-events-none absolute -right-20 top-12 h-72 w-72 rounded-full bg-sky-100/80 blur-3xl" />
 
           <div className="pointer-events-none absolute bottom-16 left-[8%] h-4 w-4 rounded-full border-2 border-sky-300/60" />
 
-          <div className="container relative">
+          <div className="container relative ">
             <SectionHeading
               eyebrow="Trusted by families"
               title={
