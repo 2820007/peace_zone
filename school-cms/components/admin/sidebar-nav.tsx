@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import {
+    Award,
     Bell,
     CalendarDays,
     FileBadge,
@@ -21,6 +22,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   LayoutDashboard,
   GraduationCap,
   MessageSquareQuote,
+  Award,
   Image: ImageIcon,
   ImagePlus,
   CalendarDays,
@@ -33,6 +35,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
 
 const NAV_ITEMS = [
   { href: "/admin/dashboard", label: "Dashboard", icon: "LayoutDashboard" },
+  // { href: "/admin/certificates", label: "Certificates", icon: "Award" },
   { href: "/admin/teachers", label: "Teachers", icon: "GraduationCap" },
   { href: "/admin/testimonials", label: "Testimonials", icon: "MessageSquareQuote" },
   { href: "/admin/gallery", label: "Gallery", icon: "Image" },

@@ -390,7 +390,7 @@ export function TestimonialSlider({
       {/* Testimonials */}
       <div
         ref={sliderRef}
-        className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 pr-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-6 overflow-x-auto overflow-y-hidden scroll-smooth pb-4 pr-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {testimonials.map((testimonial, index) => (
           <div
@@ -399,7 +399,7 @@ export function TestimonialSlider({
               testimonial.slug ||
               index
             }
-          className="w-full shrink-0 snap-start md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
+          className="w-full shrink-0 snap-start py-3 md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"
           >
             <TestimonialCard testimonial={testimonial} />
           </div>

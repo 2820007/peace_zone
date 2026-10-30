@@ -24,7 +24,7 @@ export default async function TestimonialsPage() {
           Testimonials will be published here soon.
         </p>
       ) : (
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-25 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((t: any) => (
             <TestimonialCard key={t._id} testimonial={t} />
           ))}

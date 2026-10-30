@@ -120,13 +120,13 @@ export function StatsCounter() {
                 overflow-hidden
                 rounded-[1.5rem]
                 border-2 border-sky-100
-                bg-white
+                bg-accent/25
                 px-5 py-6
                 shadow-[0_8px_30px_rgba(15,23,42,0.06)]
                 transition-all duration-300 ease-out
                 hover:-translate-y-1
                 hover:scale-[1.015]
-                hover:border-sky-300
+                hover:border-
                 hover:bg-sky-50/70
                 hover:shadow-[0_15px_35px_rgba(14,165,233,0.12)]
                 sm:px-6
@@ -142,12 +142,10 @@ export function StatsCounter() {
                   rounded-2xl
                   border-2 border-sky-100
                   bg-sky-50
-                  text-sky-600
+                  text-accent
                   transition-all duration-300
                   group-hover:scale-105
-                  group-hover:border-sky-300
-                  group-hover:bg-sky-100
-                  group-hover:text-sky-700
+                  
                   sm:h-14 sm:w-14
                 "
               >

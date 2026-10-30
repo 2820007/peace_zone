@@ -162,8 +162,8 @@ export default function GalleryCard({ gallery }: GalleryCardProps) {
           {/* Main Heading */}
 
           <h2 className="font-[Arial,Helvetica,sans-serif] text-4xl font-bold leading-[1.1] tracking-tight text-primary sm:text-5xl">
-            Moments That Define{" "}
-            <span className="text-accent">Our Community</span>
+            Moments That Define Our
+            <span className="text-accent"> Community</span>
           </h2>
 
           {/* Underline */}

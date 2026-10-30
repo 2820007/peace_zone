@@ -93,7 +93,7 @@ export default function AboutSection() {
                 ))}
 
                 {/* Image overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
 
                 {/* Top label */}
                 <motion.div
@@ -325,19 +325,7 @@ export default function AboutSection() {
 
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
-              </Button>
-
-              {/* Secondary link */}
-              <Link
-                href="/about"
-                className="group flex items-center gap-2 text-sm font-bold text-primary"
-              >
-                Learn more
-
-                <span className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
+              </Button>       
             </motion.div>
           </motion.div>
         </div>

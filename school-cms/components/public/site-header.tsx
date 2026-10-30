@@ -103,8 +103,11 @@ function SiteHeaderContent() {
           >
             <Image src="/images/peacezonologo-removebg-preview.png" alt="Peace Zone Academy logo" width={48} height={58} className="relative z-10 h-10 w-10 object-contain transition-transform duration-300 group-hover:scale-105" />
           </span>
-          <span className="relative">
+          <span className="relative font-sans">
             {SITE_CONFIG.shortName}
+          <span className="relative font-sans text-red-500">
+            {SITE_CONFIG.halfName}
+          </span>
             <span
               className={cn(
                 "absolute -bottom-1 left-0 h-[2px] w-0 rounded-full bg-primary transition-all duration-300 group-hover:w-full",

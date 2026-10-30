@@ -184,14 +184,6 @@ export default function BrighterFuture() {
               </Link>
             </Button>
 
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="rounded-full border-white/40 bg-white/10 px-6 text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:bg-white/15 hover:text-accent"
-            >
-              <Link href="/contact">Book a school visit</Link>
-            </Button>
           </motion.div>
 
           {/* Feature Points */}

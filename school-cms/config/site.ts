@@ -5,8 +5,10 @@
  */
 
 export const SITE_CONFIG = {
-  name: "Peace Zone Academy",
-  shortName: "Peace Zone",
+  name: "Peace ",
+  nextName: "Zone Academy",
+  shortName: "Peace ",
+  halfName:"Zone Academy",
   tagline: "Affiliated to NEB Nepal. Building futures through education.",
   description:
     "Peace Zone Academy is an NEB-affiliated college in Vishwa-15, Birgunj, offering Science, Management, and Law streams at the +2 level.",
