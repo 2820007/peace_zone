@@ -55,6 +55,17 @@ to 5 MB are uploaded server-side to Cloudinary; YouTube links are converted to
 an in-page player URL and play directly in the browser. Existing media remains
 unchanged when editing unless a replacement image or YouTube link is selected.
 
+## Anonymous visitor analytics
+
+The public website asks visitors before recording optional analytics. Visitors
+can accept or reject, and can reopen **Cookie settings** at any time. If accepted,
+the app stores only the page path and visit time in MongoDB; it does not store an
+IP address, device details, referrer, or visitor ID. The admin dashboard shows
+consented page views (not unique visitors) and the most-viewed pages for the
+last seven days. Records expire after 12 months. This uses the existing
+`MONGODB_URI`; no analytics provider or additional environment variable is
+required.
+
 ## Project structure
 
 ```

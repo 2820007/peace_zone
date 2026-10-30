@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import {
     Bell,
     CalendarDays,
+    FileBadge,
     GraduationCap,
     Image as ImageIcon,
     ImagePlus,
@@ -23,6 +24,7 @@ const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   Image: ImageIcon,
   ImagePlus,
   CalendarDays,
+  FileBadge,
   Megaphone,
   Mail,
   Bell,
@@ -36,6 +38,7 @@ const NAV_ITEMS = [
   { href: "/admin/gallery", label: "Gallery", icon: "Image" },
   { href: "/admin/banners", label: "Homepage Banners", icon: "ImagePlus" },
   { href: "/admin/events", label: "Events", icon: "CalendarDays" },
+  { href: "/admin/certificates", label: "Certificates", icon: "FileBadge" },
   { href: "/admin/notices", label: "Notices", icon: "Megaphone" },
   { href: "/admin/messages", label: "Messages", icon: "Mail" },
   { href: "/admin/notifications", label: "Notifications", icon: "Bell" },

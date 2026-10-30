@@ -12,6 +12,7 @@ export const SITE_CONFIG = {
     "Peace Zone Academy is an NEB-affiliated college in Vishwa-15, Birgunj, offering Science, Management, and Law streams at the +2 level.",
   address: "Vishwa-15, Birgunj, Nepal",
   phone: "+977 985-5033388",
+  whatsapp: "+977 9704374211",
   email: "peacezoneacademy9@gmail.com",
   socials: {
     facebook: "https://www.facebook.com/peacezonecollege/",

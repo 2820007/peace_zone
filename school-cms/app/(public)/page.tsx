@@ -22,14 +22,13 @@ import Link from "next/link";
 
 export default async function HomePage() {
   // Keep the existing public data flow intact.
-  const [heroBanners, testimonials, _events, galleryItems] = await Promise.all([
+  const [heroBanners, testimonials, galleryItems] = await Promise.all([
     getPublishedBanners(),
     getPublishedTestimonials(),
-    getUpcomingEvents(3),
     getPublishedGalleryItems(),
   ]);
 
-  const gallery = galleryItems.slice(0, 6);
+  const gallery = galleryItems.slice(0, 4);
 
   return (
     <>

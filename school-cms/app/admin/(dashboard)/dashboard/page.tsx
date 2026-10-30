@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { getDashboardStats } from "@/lib/queries";
+import { getDashboardStats, getVisitorAnalytics } from "@/lib/queries";
 import { cn, formatDate } from "@/lib/utils";
 import {
     ArrowRight,
@@ -10,6 +10,7 @@ import {
     CheckCircle2,
     ClipboardList,
     GraduationCap,
+    Eye,
     Mail,
     Megaphone,
     PenLine,
@@ -194,7 +195,10 @@ function PublishingDonut({
 }
 
 export default async function AdminDashboardPage() {
-  const stats = await getDashboardStats();
+  const [stats, visitorAnalytics] = await Promise.all([
+    getDashboardStats(),
+    getVisitorAnalytics(),
+  ]);
   const contentTotal =
     stats.totalTeachers +
     stats.totalTestimonials +
@@ -311,6 +315,59 @@ export default async function AdminDashboardPage() {
           icon={CalendarDays}
           tone="indigo"
         />
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+        <Card className="shadow-sm">
+          <CardContent className="p-5">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-medium text-muted-foreground">
+                  Page views (last 7 days)
+                </p>
+                <p className="mt-2 text-3xl font-semibold tracking-tight">
+                  {visitorAnalytics.pageViews}
+                </p>
+              </div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-100 text-indigo-700">
+                <Eye className="h-5 w-5" />
+              </div>
+            </div>
+            <p className="mt-4 text-xs text-muted-foreground">
+              Anonymous views from visitors who accepted optional analytics;
+              this is not a unique-visitor count.
+            </p>
+          </CardContent>
+        </Card>
+        <Card className="shadow-sm">
+          <div className="border-b px-5 py-4">
+            <h2 className="font-semibold">Most viewed pages</h2>
+            <p className="mt-0.5 text-sm text-muted-foreground">
+              Anonymous page views over the last 7 days
+            </p>
+          </div>
+          <CardContent className="p-5">
+            {visitorAnalytics.topPages.length === 0 ? (
+              <p className="text-sm text-muted-foreground">
+                No consented page views have been recorded yet.
+              </p>
+            ) : (
+              <ul className="space-y-3">
+                {visitorAnalytics.topPages.map((page) => (
+                  <li
+                    key={page.path}
+                    className="flex items-center justify-between gap-4 text-sm"
+                  >
+                    <span className="truncate font-medium">{page.path}</span>
+                    <span className="shrink-0 text-muted-foreground">
+                      {page.views} views
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </CardContent>
+        </Card>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-5">

@@ -1,5 +1,7 @@
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
+import { CookieConsent } from "@/components/public/cookie-consent";
+import { WhatsAppButton } from "@/components/public/whatsapp-button";
 import { Suspense } from "react";
 
 // Public pages read live CMS content from MongoDB. Rendering them per request
@@ -15,6 +17,8 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
       </Suspense>
       <main className="flex-1">{children}</main>
       <SiteFooter />
+      <CookieConsent />
+      <WhatsAppButton />
     </div>
   );
 }

@@ -1,21 +1,21 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { toast } from "sonner";
-import { Mail, MailOpen } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { deleteMessageAction, markMessageReadAction } from "@/actions/messages";
 import { DeleteConfirm } from "@/components/admin/delete-confirm";
 import { EmptyState } from "@/components/admin/empty-state";
+import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { formatDate } from "@/lib/utils";
-import { markMessageReadAction, deleteMessageAction } from "@/actions/messages";
+import { Mail, MailOpen } from "lucide-react";
+import { useState, useTransition } from "react";
+import { toast } from "sonner";
 
 interface MessageRow {
   _id: string;
@@ -26,6 +26,16 @@ interface MessageRow {
   message: string;
   read: boolean;
   createdAt: string;
+}
+
+function getGmailComposeUrl(message: MessageRow) {
+  const params = new URLSearchParams({
+    view: "cm",
+    fs: "1",
+    to: message.email,
+  });
+  if (message.subject) params.set("su", `Re: ${message.subject}`);
+  return `https://mail.google.com/mail/?${params.toString()}`;
 }
 
 export function MessagesInbox({ messages }: { messages: MessageRow[] }) {
@@ -124,7 +134,9 @@ export function MessagesInbox({ messages }: { messages: MessageRow[] }) {
               </div>
               <div className="flex justify-end">
                 <Button asChild size="sm">
-                  <a href={`mailto:${selected.email}`}>Reply by Email</a>
+                  <a href={getGmailComposeUrl(selected)} target="_blank" rel="noopener noreferrer">
+                    Reply by Email
+                  </a>
                 </Button>
               </div>
             </>
